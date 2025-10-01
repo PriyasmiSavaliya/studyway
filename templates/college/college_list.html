@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 style="text-align:center;">Best Colleges in India 2025</h2>
+
+<!-- Filter and Search -->
+<form method="get" action="{{ url_for('college.list_colleges') }}" class="filter-form">
+  <div class="filters-container">
+
+    <!-- Search Bar -->
+    <input type="text" name="search" placeholder="Search by college name or course" value="{{ request.args.get('search', '') }}" class="search-box">
+
+    <!-- Location Filter -->
+    <select name="city" class="filter-select">
+  <option value="">All Cities</option>
+  {% for city in cities %}
+    <option value="{{ city }}" {% if request.args.get('city') == city %}selected{% endif %}>{{ city }}</option>
+  {% endfor %}
+</select>
+
+  <select name="state" class="filter-select">
+  <option value="">All States</option>
+  {% for state in states %}
+    <option value="{{ state }}" {% if request.args.get('state') == state %}selected{% endif %}>{{ state }}</option>
+  {% endfor %}
+</select>
+  <select name="exam" class="filter-select">
+      <option value="">All Exams</option>
+      {% for exam in exams %}
+        <option value="{{ exam }}" {% if request.args.get('exam') == exam %}selected{% endif %}>{{ exam }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Rating Filter -->
+    <select name="rating" class="filter-select">
+  <option value="">Rating</option>
+  {% for r in ratings %}
+    <option value="{{ r }}" {% if request.args.get('rating') == r|string %}selected{% endif %}>{{ r }}★ & Up</option>
+  {% endfor %}
+</select>
+
+    <!-- Fee Filter -->
+    <select name="fee" class="filter-select">
+      <option value="">Fee Range</option>
+      <option value="0-200000">Under ₹2L</option>
+      <option value="200000-400000">₹2L - ₹4L</option>
+      <option value="400000-1000000">Above ₹4L</option>
+    </select>
+
+    <button type="submit" class="search-btn">Apply Filters</button>
+  </div>
+</form>
+
+<!-- College List -->
+<div class="college-grid">
+  {% for c in colleges %}
+    <div class="college-card">
+      {% if c.image %}
+    <img src="{{ url_for('static', filename='image/' ~ c.image) }}" alt="{{ c.college_name }}" class="college-img">
+{% endif %}
+      <h3>{{ c.college_name or c.name }}</h3>
+      <ul>
+        <li><strong>City:</strong> {{ c.city }}</li>
+        <li><strong>State:</strong> {{ c.state }}</li>
+
+        <li><strong>Ranking:</strong> {{ c.ranking }}</li>
+        <li><strong>Fee:</strong> ₹{{ '{:,.2f}'.format(c.avg_fee) if c.avg_fee }}</li>
+        <li><strong>Courses:</strong> {{ ', '.join(c.courses or []) }}</li>
+        <li><strong>Exam:</strong> {{ c.exam }}</li>
+        <li><strong>Cutoff:</strong> {{ c.cutoff }}</li>
+        <li><strong>Rating:</strong> ⭐ {{ c.placement_rating }}</li>
+        <li><strong>Facilities:</strong> {{ ', '.join(c.facilities or []) }}</li>
+          <li><strong>Website:</strong>
+  {% if c.college_website %}
+    <a href="{{ c.college_website }}" target="_blank">{{ c.college_website }}</a>
+  {% else %}
+    N/A
+  {% endif %}
+</li>
+        <li><strong>About:</strong> {{ c.description[:120] }}...</li>
+      </ul>
+    </div>
+  {% endfor %}
+
+  {% if colleges|length == 0 %}
+    <p>No colleges found based on your filters.</p>
+  {% endif %}
+</div>
+<div class="pagination">
+  {% if page > 1 %}
+    <a href="{{ url_for('college.list_colleges', page=page-1, **request_args) }}" class="page-btn">Prev</a>
+  {% endif %}
+
+  {% for p in range(1, total_pages+1) %}
+    <a href="{{ url_for('college.list_colleges', page=p, **request_args) }}"
+       class="page-btn {% if p == page %}active{% endif %}">{{ p }}</a>
+  {% endfor %}
+
+  {% if page < total_pages %}
+    <a href="{{ url_for('college.list_colleges', page=page+1, **request_args) }}" class="page-btn">Next</a>
+  {% endif %}
+</div>
+
+
+{% endblock %}

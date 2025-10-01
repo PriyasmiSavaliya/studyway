@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="contact-container">
+  <section class="contact-hero">
+    <h2>Contact Us</h2>
+    <p>We’d love to hear from you! Whether you have a question, feedback, or partnership idea, feel free to reach out.</p>
+  </section>
+
+  <div class="contact-grid">
+    <!-- Contact Information -->
+    <div class="contact-info">
+      <h3>Get in Touch</h3>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:support@studyway.com">support@studyway.com</a></li>
+        <li><strong>Phone:</strong> +91 98765 43210</li>
+        <li><strong>Address:</strong> StudyWay HQ, India</li>
+      </ul>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h3>Send Us a Message</h3>
+      <form method="post" action="#">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

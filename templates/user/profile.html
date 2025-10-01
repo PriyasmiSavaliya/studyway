@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="margin-bottom:20px;">Student Profile</h2>
+
+{% if user %}
+  <div class="profile-card">
+    <form method="post" class="form">
+      <label>First Name
+        <input type="text" name="first_name" value="{{ user.first_name }}" readonly>
+      </label>
+      <label>Last Name
+        <input type="text" name="last_name" value="{{ user.last_name }}" readonly>
+      </label>
+      <label>10th %:
+        <input type="number" step="0.01" name="tenth_percent" value="{{ user.academic_profile.tenth_percent if user.academic_profile else '' }}">
+      </label>
+      <label>12th %:
+        <input type="number" step="0.01" name="twelfth_percent" value="{{ user.academic_profile.twelfth_percent if user.academic_profile else '' }}">
+      </label>
+      <label>Graduation CGPA:
+        <input type="number" step="0.01" name="graduation_cgpa" value="{{ user.academic_profile.graduation_cgpa if user.academic_profile else '' }}">
+      </label>
+      <label>Entrance Score:
+        <input type="number" step="0.01" name="entrance_score" value="{{ user.academic_profile.entrance_score if user.academic_profile else '' }}">
+      </label>
+     <label>Desired Course:
+  <select name="desired_course">
+    {% for course in courses %}
+      <option value="{{ course }}" {% if user.desired_course == course %}selected{% endif %}>
+        {{ course }}
+      </option>
+    {% endfor %}
+  </select>
+</label>
+      <label>Preferred Location:
+        <input type="text" name="location_pref" value="{{ user.location_pref or '' }}">
+      </label>
+      <label>Budget:
+        <input type="number" step="0.01" name="budget" value="{{ user.budget or '' }}">
+      </label>
+      <button type="submit" class="btn">Save Profile</button>
+    </form>
+  </div>
+{% else %}
+  <p>Error: User not found.</p>
+{% endif %}
+{% endblock %}

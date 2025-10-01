@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudyWay</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/college.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+
+
+</head>
+<body>
+<header class="nav">
+  <a href="{{ url_for('home') }}" class="brand">StudyWay</a>
+
+  <nav>
+  <a href="{{ url_for('home') }}">Home</a>
+  <a href="{{ url_for('college.list_colleges') }}">Colleges</a>
+
+<a href="{{ url_for('about') }}">About</a>
+<a href="{{ url_for('contact') }}">Contact Us</a>
+
+
+  {% if session.get('user_id') %}
+
+      {% if session.get('role') == 'user' %}
+          <a href="{{ url_for('user.recommendations') }}">Recommendations</a>
+        <!-- Student Icon with Dropdown -->
+        <div class="user-nav">
+  <button class="hello-msg" id="userDropdownBtn">👤 Hello, {{ session.get('first_name') }}!</button>
+  <div class="dropdown" id="userDropdown">
+    <a href="{{ url_for('user.profile') }}">Profile</a>
+    <a href="{{ url_for('user.edit_profile') }}">Edit Profile</a>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+  </div>
+</div>
+      {% elif session.get('role') == 'college' %}
+        <span class="hello-msg">🏫 Hello, {{ session.get('college_name') }}!</span>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+      {% endif %}
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">Login</a>
+      <a href="{{ url_for('auth.register') }}">Register</a>
+    {% endif %}
+  </nav>
+</header>
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+      {% for category, message in messages %}
+        <li class="flash {{ category }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer">
+  <p>© {{ 2025 }} StudyWay</p>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("userDropdownBtn");
+    const dropdown = document.getElementById("userDropdown");
+
+    btn.addEventListener("click", function(event) {
+      dropdown.classList.toggle("show");
+      event.stopPropagation();
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener("click", function() {
+      dropdown.classList.remove("show");
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Find the right college for you.</h1>
+    <p>Compare courses, fees, eligibility and rankings. Get personalized recommendations.</p>
+    {% if not session.get('user_id') %}
+    <div class="cta">
+      <a class="btn" href="{{ url_for('auth.register') }}">Get Started</a>
+      <a class="btn outline" href="{{ url_for('auth.login') }}">Login</a>
+    </div>
+    {% else %}
+    <a class="btn" href="{{ url_for('dashboard_redirect') }}">Search College</a>
+    {% endif %}
+  </section>
+
+ <!-- Explore Colleges Section -->
+<div class="container">
+  <h2>Explore Colleges</h2>
+  <div class="grid">
+    {% if colleges and colleges|length > 0 %}
+      {% for college in colleges %}
+        <div class="card">
+          <!-- College Image - Fixed path consistency -->
+          {% if college.get('image') %}
+            <img src="{{ url_for('static', filename='image/' ~ college.image) }}" alt="{{ college.get('college_name', 'College') }}" onerror="this.src='{{ url_for('static', filename='image/default-college.jpg') }}'">
+          {% else %}
+            <img src="{{ url_for('static', filename='image/college' ~ (loop.index % 6 + 1) ~ '.jpg') }}" alt="{{ college.get('college_name', 'College') }}">
+          {% endif %}
+
+          <div class="card-content">
+            <h3>{{ college.get('college_name', 'Unknown College') }}</h3>
+            <p><strong>📍 Location:</strong> {{ college.get('city', 'N/A') }}, {{ college.get('state', 'N/A') }}</p>
+            <p><strong>🎓 Courses:</strong> {{ college.get('courses', 'N/A') }}</p>
+            <p><strong>📝 Exam Accepted:</strong> {{ college.get('exam', 'N/A') }}</p>
+            <p><strong>🏆 Ranking:</strong> {{ college.get('ranking', 'N/A') }}</p>
+            <p><strong>💰 Avg Fees:</strong> ₹{{ college.get('avg_fee', 'N/A') }}</p>
+            <p><strong>⭐ Placement Rating:</strong> {{ college.get('placement_rating', 'N/A') }}/10</p>
+            <p><strong>📊 Cutoff:</strong> {{ college.get('cutoff', 'N/A') }}</p>
+            <p><strong>🏢 Facilities:</strong> {{ college.get('facilities', 'N/A') }}</p>
+            {% if college.get('description') %}
+            <p><strong>📖 Description:</strong> {{ college.get('description', '')[:100] }}{% if college.description|length > 100 %}...{% endif %}</p>
+            {% endif %}
+            {% if college.get('college_website') %}
+            <p><strong>🌐 Website:</strong> <a href="{{ college.college_website }}" target="_blank">Visit Website</a></p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <!-- Fallback content with consistent paths -->
+      <div class="card">
+        <img src="{{ url_for('static', filename='image/' ~ college.image) }}"
+     alt="{{ college.get('college_name', 'College') }}"
+     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+<div style="display:none;">Image not available</div>
+      </div>
+      <!-- ... other fallback cards -->
+    {% endif %}
+  </div>
+</div>
+
+  <!-- Top Ranked Colleges Section -->
+  <div class="container" style="margin-top:30px;">
+    <h2>Top Ranked Colleges</h2>
+    <div class="grid">
+      <div class="card" style="background:linear-gradient(90deg,#eef3ff,#d9e3ff); color:#0b1220;">
+        <p>Top BCA Colleges in <br><strong>India 2025</strong></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

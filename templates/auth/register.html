@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Register</h2>
+<form method="post" class="form">
+  <!-- Role Selection -->
+  <label>Role
+    <select name="role" id="role" required onchange="toggleFields()">
+      <option value="user">Student</option>
+      <option value="college">College</option>
+      <option value="admin">Admin</option>
+    </select>
+  </label>
+
+  <!-- Student Fields -->
+  <div id="student-fields">
+    <label>First Name <input type="text" name="first_name"></label>
+    <label>Last Name <input type="text" name="last_name"></label>
+  </div>
+
+  <!-- College Fields -->
+  <div id="college-fields" style="display:none;">
+    <label>College Name <input type="text" name="college_name"></label>
+    <label>Location <input type="text" name="location"></label>
+    <label>Exam Accepted <input type="text" name="exam"></label>
+    <label>Courses (comma separated) <input type="text" name="courses"></label>
+  </div>
+
+  <!-- Common Fields -->
+  <label>Email <input type="email" name="email" required></label>
+  <label>Password <input type="password" name="password" required></label>
+
+  <button class="btn" type="submit">Sign Up</button>
+</form>
+
+<p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+
+<script>
+function toggleFields() {
+  const role = document.getElementById('role').value;
+  document.getElementById('student-fields').style.display = (role === 'user') ? 'block' : 'none';
+  document.getElementById('college-fields').style.display = (role === 'college') ? 'block' : 'none';
+}
+
+// Initialize on page load
+toggleFields();
+</script>
+{% endblock %}

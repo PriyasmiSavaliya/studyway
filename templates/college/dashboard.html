@@ -1,0 +1,42 @@
+{% extends 'college/college_base.html' %}
+
+{% block content %}
+<div class="dashboard-container">
+
+  <!-- Top Metrics -->
+  <div class="metrics">
+    <div class="metric-card blue">
+      <h4>New Accounts</h4>
+      <p class="value">234%</p>
+      <span class="progress-circle">58</span>
+    </div>
+    <div class="metric-card red">
+      <h4>Total Expenses</h4>
+      <p class="value">71%</p>
+      <span class="progress-circle">62</span>
+    </div>
+    <div class="metric-card yellow">
+      <h4>Company Value</h4>
+      <p class="value">$1.45M</p>
+      <span class="progress-circle">72</span>
+    </div>
+    <div class="metric-card green">
+      <h4>New Employees</h4>
+      <p class="value">+34 hires</p>
+      <span class="progress-circle">81</span>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts">
+    <div class="chart-card">
+      <h4>Traffic Sources</h4>
+      <canvas id="trafficChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Income</h4>
+      <canvas id="incomeChart"></canvas>
+    </div>
+  </div>
+</div>
+{% endblock %}

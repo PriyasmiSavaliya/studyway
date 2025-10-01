@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>College Recommendations for {{ student.first_name }} {{ student.last_name }}</h2>
+
+{% if recommendations %}
+    <div class="college-list">
+        {% for college in recommendations %}
+            <div class="college-card">
+                <h3>{{ college.college_name }}</h3>
+                <p><strong>Location:</strong> {{ college.city }}, {{ college.state }}</p>
+                <p><strong>Courses:</strong> {{ college.courses | join(', ') }}</p>
+                <p><strong>Average Fee:</strong> ₹{{ college.avg_fee }}</p>
+                <p><strong>Placement Rating:</strong> {{ college.placement_rating }}/10</p>
+                <p><strong>Website:</strong> <a href="{{ college.college_website }}" target="_blank">{{ college.college_website }}</a></p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No suitable colleges found for your profile.</p>
+{% endif %}
+{% endblock %}

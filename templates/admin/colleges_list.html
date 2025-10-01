@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Colleges</h2>
+<p><a class="btn" href="{{ url_for('admin.create_college') }}">Add College</a></p>
+<table class="table">
+  <thead><tr><th>Name</th><th>Location</th><th>Ranking</th><th>Avg Fee</th><th>Courses</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% for item in items %}
+  <tr>
+    <td>{{ item.name }}</td>
+    <td>{{ item.location }}</td>
+    <td>{{ item.ranking }}</td>
+    <td>₹ {{ '%.0f'|format(item.avg_fee) if item.avg_fee }}</td>
+    <td>{{ ', '.join(item.courses or []) }}</td>
+    <td>
+      <a class="btn small" href="{{ url_for('admin.edit_college', name=item.name) }}">Edit</a>
+      <form method="post" action="{{ url_for('admin.delete_college', name=item.name) }}" style="display:inline">
+        <button class="btn danger small" type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

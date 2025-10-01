@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<div class="stats">
+  <div class="stat">Users: {{ stats.user_count }}</div>
+  <div class="stat">Colleges: {{ stats.college_count }}</div>
+</div>
+<p><a class="btn" href="{{ url_for('admin.list_colleges') }}">Manage Colleges</a></p>
+{% endblock %}

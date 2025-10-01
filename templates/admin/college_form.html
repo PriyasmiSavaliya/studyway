@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ 'Edit' if item else 'Add' }} College</h2>
+<form method="post" class="form">
+  <label>Name <input type="text" name="name" value="{{ item.name if item }}" {{ 'readonly' if item }} required></label>
+  <label>Location <input type="text" name="location" value="{{ item.location if item }}"></label>
+  <label>Ranking <input type="number" name="ranking" value="{{ item.ranking if item }}"></label>
+  <label>Average Fee (₹) <input type="number" step="0.01" name="avg_fee" value="{{ item.avg_fee if item }}"></label>
+  <label>Facilities (comma separated) <input type="text" name="facilities" value="{{ ', '.join(item.facilities or []) if item }}"></label>
+  <label>Courses (comma separated) <input type="text" name="courses" value="{{ ', '.join(item.courses or []) if item }}"></label>
+  <button class="btn" type="submit">Save</button>
+</form>
+{% endblock %}

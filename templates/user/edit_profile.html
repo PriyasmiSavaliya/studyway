@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Profile</h2>
+<form method="post" class="form">
+  <label>First Name <input type="text" name="first_name" value="{{ user.first_name or '' }}"></label>
+  <label>Last Name <input type="text" name="last_name" value="{{ user.last_name or '' }}"></label>
+
+  <label>10th Percentage <input type="number" step="0.01" name="tenth_percent" value="{{ user.academic_profile.tenth_percent if user.academic_profile }}"></label>
+  <label>12th Percentage <input type="number" step="0.01" name="twelfth_percent" value="{{ user.academic_profile.twelfth_percent if user.academic_profile }}"></label>
+  <label>Graduation CGPA <input type="number" step="0.01" name="graduation_cgpa" value="{{ user.academic_profile.graduation_cgpa if user.academic_profile }}"></label>
+  <label>Entrance Score <input type="number" step="0.01" name="entrance_score" value="{{ user.academic_profile.entrance_score if user.academic_profile }}"></label>
+
+  <label>Desired Course <input type="text" name="desired_course" value="{{ user.desired_course or '' }}"></label>
+  <label>Preferred Location <input type="text" name="location_pref" value="{{ user.location_pref or '' }}"></label>
+  <label>Budget (₹) <input type="number" step="0.01" name="budget" value="{{ user.budget or '' }}"></label>
+
+  <button class="btn" type="submit">Save</button>
+</form>
+{% endblock %}

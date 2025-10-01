@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>College Panel - StudyWay</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/college.css') }}">
+
+</head>
+<body>
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>College Panel</h2>
+        <p>{{ session.college_name }}</p>
+      </div>
+      <ul>
+        <li><a href="{{ url_for('college.dashboard') }}">📊 Dashboard</a></li>
+        <li><a href="{{ url_for('college.profile') }}">🏫 Edit Profile</a></li>
+        <li><a href="{{ url_for('auth.logout') }}">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <header class="topbar">
+        <h1>Welcome, {{ session.name }}</h1>
+      </header>
+
+      <section class="content">
+        {% block content %}{% endblock %}
+      </section>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+const trafficChart = new Chart(trafficCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Jan 1','Jan 2','Jan 3','Jan 4','Jan 5','Jan 6','Jan 7'],
+        datasets: [
+            { label: 'Website Blog', data: [400,500,420,650,230,410,180], backgroundColor: '#3498db' },
+            { label: 'Social Media', data: [30,70,60,40,70,30,20], type: 'line', borderColor: '#2ecc71', fill: false }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } }
+    }
+});
+
+const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+const incomeChart = new Chart(incomeCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Target', 'Achieved'],
+        datasets: [{
+            data: [32, 75],
+            backgroundColor: ['#f1c40f', '#3498db']
+        }]
+    },
+    options: { responsive: true }
+});
+</script>
+
+</body>
+</html>
