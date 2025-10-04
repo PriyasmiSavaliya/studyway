@@ -112,6 +112,7 @@ body {
   border-bottom: 1px solid #233;
   padding: 10px;
   text-align:left;
+  color: white;
 }
 
 .grid {
@@ -346,4 +347,9 @@ h2 {
 
 .card-content a:hover {
   text-decoration: underline;
+}
+
+label {
+    cursor: default;
+  color: white;
 }

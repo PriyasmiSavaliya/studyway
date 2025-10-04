@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - StudyWay</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="admin-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>StudyWay Admin</h2>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="{{ url_for('admin.dashboard') }}" class="{{ 'active' if '/dashboard' in request.path else '' }}">Dashboard</a></li>
+        <li><a href="{{ url_for('admin.list_users') }}" class="{{ 'active' if '/users' in request.path else '' }}">Manage Users</a></li>
+        <li><a href="{{ url_for('admin.list_colleges') }}" class="{{ 'active' if '/colleges' in request.path else '' }}">Manage Colleges</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <h1>Admin Panel</h1>
+      </header>
+      <div class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+:root {
+  --bg: #0b1220;
+  --sidebar: #111a2b;
+  --primary: #4f46e5;
+  --text: #e8eefc;
+  --muted: #a9b4cc;
+  --danger: #ff4d6d;
+  --success: #22c55e;
+}
+
+body, html {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.admin-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar-header h2 {
+  color: var(--primary);
+  margin-bottom: 30px;
+  font-size: 1.4em;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 15px;
+}
+
+.sidebar-menu a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+.sidebar-menu a.active, .sidebar-menu a:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background: var(--sidebar);
+  padding: 15px 20px;
+  border-bottom: 1px solid #222;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.content {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 12px 15px;
+  border: 1px solid #222;
+  text-align: left;
+}
+
+table th {
+  background: #1a2336;
+}
+
+.btn {
+  padding: 6px 12px;
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn.danger {
+  background: var(--danger);
+}
+
+.btn.success {
+  background: var(--success);
+}
+
+.btn.small {
+  padding: 4px 8px;
+  font-size: 0.9em;
+}
+
+.flash {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.flash.success { background: var(--success); color: #fff; }
+.flash.warning { background: #facc15; color: #111; }
+.flash.info { background: var(--primary); color: #fff; }

@@ -96,7 +96,7 @@ def edit_profile():
 @role_required('user')
 def recommendations():
     db = get_db()
-    user_id = session.get('user_id')  # get user id from session
+    user_id = session.get('user_id')
 
     if not user_id:
         flash("Please login again.", "danger")
@@ -134,18 +134,28 @@ def recommendations():
                 score += 2
 
         if score > 0:
+            # Set default image if not present
+            if not college.get('image'):
+                college['image'] = 'default_college.jpg'  # make sure this file exists in static/image/
+            # Generate URL for template
+            college['image_url'] = url_for('static', filename=f'image/{college["image"]}')
             recommended.append((college, score))
 
     # Fallback: only desired course
     if not recommended and student.get('desired_course'):
         for college in colleges:
             if student['desired_course'].lower() in [c.lower() for c in college.get('courses', [])]:
+                if not college.get('image'):
+                    college['image'] = 'default_college.jpg'
+                college['image_url'] = url_for('static', filename=f'image/{college["image"]}')
                 recommended.append((college, 3))
 
     # Sort by score descending
     recommended.sort(key=lambda x: x[1], reverse=True)
     recommended_colleges = [col[0] for col in recommended]
 
-    return render_template('user/recommendations.html',
-                           recommendations=recommended_colleges,
-                           student=student)
+    return render_template(
+        'user/recommendations.html',
+        recommendations=recommended_colleges,
+        student=student
+    )

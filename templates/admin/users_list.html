@@ -1,0 +1,25 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<h2>Users</h2>
+<p><a class="btn" href="{{ url_for('admin.create_user') }}">Add User</a></p>
+<table class="table">
+  <thead>
+    <tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.name }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.role }}</td>
+      <td>
+        <a class="btn small" href="{{ url_for('admin.edit_user', user_id=u._id) }}">Edit</a>
+        <form method="post" action="{{ url_for('admin.delete_user', user_id=u._id) }}" style="display:inline">
+          <button class="btn danger small" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

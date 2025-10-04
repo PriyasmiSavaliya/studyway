@@ -3,15 +3,24 @@
 <h2>College Recommendations for {{ student.first_name }} {{ student.last_name }}</h2>
 
 {% if recommendations %}
-    <div class="college-list">
+    <div class="college-grid">
         {% for college in recommendations %}
             <div class="college-card">
+                {% if college.image %}
+                    <img src="{{ url_for('static', filename='image/' ~ college.image) }}" alt="{{ college.college_name }}" class="college-img">
+                {% endif %}
                 <h3>{{ college.college_name }}</h3>
-                <p><strong>Location:</strong> {{ college.city }}, {{ college.state }}</p>
-                <p><strong>Courses:</strong> {{ college.courses | join(', ') }}</p>
-                <p><strong>Average Fee:</strong> ₹{{ college.avg_fee }}</p>
-                <p><strong>Placement Rating:</strong> {{ college.placement_rating }}/10</p>
-                <p><strong>Website:</strong> <a href="{{ college.college_website }}" target="_blank">{{ college.college_website }}</a></p>
+                <ul>
+                    <li><strong>Location:</strong> {{ college.city }}, {{ college.state }}</li>
+                    <li><strong>Courses:</strong> {{ college.courses | join(', ') }}</li>
+                    <li><strong>Average Fee:</strong> ₹{{ college.avg_fee }}</li>
+                    {% if college.placement_rating %}
+                        <li><strong>Placement Rating:</strong> {{ college.placement_rating }}/10</li>
+                    {% endif %}
+                    {% if college.college_website %}
+                        <li><strong>Website:</strong> <a href="{{ college.college_website }}" target="_blank">{{ college.college_website }}</a></li>
+                    {% endif %}
+                </ul>
             </div>
         {% endfor %}
     </div>
