@@ -20,14 +20,19 @@ body, html {
   height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
   background: var(--sidebar);
   display: flex;
   flex-direction: column;
   padding: 20px;
+  position: fixed;         /* ✅ Fixes sidebar to left */
+  top: 0;
+  left: 0;
+  height: 100vh;           /* Full height */
+  overflow-y: auto;        /* Scroll if sidebar too long */
 }
+
 
 .sidebar-header h2 {
   color: var(--primary);
@@ -61,9 +66,13 @@ body, html {
 
 /* Main content */
 .main-content {
+  margin-left: 220px;  /* pushes content beside sidebar */
+  padding: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  overflow-x: auto;    /* prevent hiding wide tables */
 }
 
 .topbar {
@@ -78,7 +87,7 @@ body, html {
 }
 
 .content {
-  padding: 20px;
+  padding: 40px;
   overflow-y: auto;
 }
 
@@ -131,3 +140,153 @@ table th {
 .flash.success { background: var(--success); color: #fff; }
 .flash.warning { background: #facc15; color: #111; }
 .flash.info { background: var(--primary); color: #fff; }
+
+/* ===== Form Styling for Admin Panel ===== */
+.form {
+  background: #111a2b; /* dark card background */
+  border: 1px solid #222; /* subtle border */
+  border-radius: 10px;
+  padding: 20px 25px;
+  max-width: 500px;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  color: var(--text);
+}
+
+.form label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 5px;
+  border: 1px solid #222;
+  border-radius: 8px;
+  background: #0b1220;
+  color: var(--text);
+  font-size: 15px;
+  transition: border 0.2s ease-in-out, background 0.2s;
+}
+
+.form input[type="text"]:focus,
+.form input[type="email"]:focus,
+.form input[type="password"]:focus,
+.form select:focus {
+  border-color: var(--primary);
+  outline: none;
+  background: #111a2b;
+}
+
+.form .btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 18px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.form .btn:hover {
+  background: #3b38c0;
+}
+
+/* Optional: smaller buttons */
+.form .btn.small {
+  padding: 6px 12px;
+  font-size: 0.9em;
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #111a2b;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.table th, .table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #222;
+  text-align: left;
+  vertical-align: middle;
+  color: var(--text);
+}
+
+.table th {
+  background: #1a2336;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.table tbody tr:hover {
+  background: #161f2e;
+}
+
+.table .link {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.college-img {
+  width: 80px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 8px 14px;
+  color: #e8eefc;
+  background: #1e293b;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+  background: #334155;
+  color: #fff;
+}
+
+.pagination a.active {
+  background: #6366f1; /* Indigo */
+  color: #fff;
+  font-weight: bold;
+}
+
+.pagination a.disabled {
+  pointer-events: none;
+  background: #475569;
+  color: #9ca3af;
+}
+
+
+

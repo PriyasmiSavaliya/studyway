@@ -1,12 +1,17 @@
-from flask import Flask, render_template, session, redirect, url_for,Blueprint
-from config import Config
-from services.db import get_db, close_db
+from flask import Flask, render_template, session, redirect, url_for
+from services.db import get_db, close_db, SECRET_KEY
+import os
 
-home_bp = Blueprint('home', __name__)
 
 def create_app():
     app = Flask(__name__, template_folder='templates', static_folder='static')
-    app.config.from_object(Config)
+
+    # Set secret key
+    app.config['SECRET_KEY'] = SECRET_KEY
+
+    # Upload folder config
+    app.config['UPLOAD_FOLDER'] = os.path.join('static', 'image')
+    app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024  # Optional limit 2MB
 
     # Blueprints
     from blueprints.auth.routes import auth_bp
@@ -19,21 +24,15 @@ def create_app():
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(college_bp, url_prefix='/college')
 
-    # -------------------
     # Main Pages
-    # -------------------
     @app.route('/')
     def home():
         db = get_db()
-
-        # Get 4 colleges from the database
         colleges = list(db.colleges.find().limit(6))
-
-        # Convert ObjectId to string for each college
         for college in colleges:
             college['_id'] = str(college['_id'])
-
         return render_template('home.html', colleges=colleges)
+
     @app.route('/about')
     def about():
         return render_template('about.html')
@@ -53,9 +52,7 @@ def create_app():
             return redirect(url_for('college.list_colleges'))
         return redirect(url_for('auth.login'))
 
-    # -------------------
-    # DB Teardown
-    # -------------------
+    # Teardown DB
     @app.teardown_appcontext
     def teardown_db(exception):
         close_db()

@@ -77,8 +77,6 @@ def register():
     return render_template("auth/register.html")
 
 
-# ------------------- LOGIN -------------------
-# ------------------- LOGIN -------------------
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     db = get_db()
@@ -88,12 +86,12 @@ def login():
 
         user = db.users.find_one({"email": email})
 
-        if user and check_password_hash(user["password"], password):
+        if user and "password" in user and check_password_hash(user["password"], password):
             # Store session
             session["user_id"] = str(user["_id"])
             session["role"] = user.get("role", "user")
 
-            # Store name in session correctly
+            # Store name in session
             if session["role"] == "user":
                 session["first_name"] = user.get("first_name", "")
                 session["last_name"] = user.get("last_name", "")
@@ -108,17 +106,16 @@ def login():
             elif session["role"] == "college":
                 return redirect(url_for("college.dashboard"))
             else:  # student
-                return redirect(url_for("user.dashboard"))
+                return redirect(url_for("home"))
         else:
             flash("Invalid email or password", "danger")
             return redirect(url_for("auth.login"))
 
     return render_template("auth/login.html")
 
-
 # ------------------- LOGOUT -------------------
 @auth_bp.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out.", "info")
-    return redirect(url_for("auth.login"))
+    return redirect(url_for('home'))

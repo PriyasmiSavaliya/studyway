@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
+
+from blueprints.admin.routes import admin_bp
 from services.db import get_db
 from utils.auth import login_required, role_required
 from bson import ObjectId
@@ -159,3 +161,51 @@ def recommendations():
         recommendations=recommended_colleges,
         student=student
     )
+@admin_bp.route('/users')
+@login_required
+@role_required('admin')
+def list_users():
+    db = get_db()
+    users = list(db.users.find({}))
+    return render_template('admin/users_list.html', users=users)
+
+@admin_bp.route('/users/create', methods=['GET','POST'])
+@login_required
+@role_required('admin')
+def create_user():
+    db = get_db()
+    if request.method == 'POST':
+        db.users.insert_one({
+            'name': request.form['name'],
+            'email': request.form['email'],
+            'password': request.form['password'],
+            'role': request.form['role']
+        })
+        flash("User added.", "success")
+        return redirect(url_for('admin.list_users'))
+    return render_template('admin/user_form.html', user=None)
+
+@admin_bp.route('/users/<id>/edit', methods=['GET','POST'])
+@login_required
+@role_required('admin')
+def edit_user(id):
+    db = get_db()
+    user = db.users.find_one({'_id': ObjectId(id)})
+    if request.method == 'POST':
+        db.users.update_one({'_id': ObjectId(id)}, {'$set': {
+            'name': request.form['name'],
+            'email': request.form['email'],
+            'role': request.form['role']
+        }})
+        flash("User updated.", "success")
+        return redirect(url_for('admin.list_users'))
+    return render_template('admin/user_form.html', user=user)
+
+@admin_bp.route('/users/<id>/delete', methods=['POST'])
+@login_required
+@role_required('admin')
+def delete_user(id):
+    db = get_db()
+    db.users.delete_one({'_id': ObjectId(id)})
+    flash("User deleted.", "info")
+    return redirect(url_for('admin.list_users'))

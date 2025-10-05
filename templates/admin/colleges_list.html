@@ -1,25 +1,90 @@
-{% extends 'base.html' %}
+{% extends 'admin/base.html' %}
 {% block content %}
+
+
 <h2>Colleges</h2>
-<p><a class="btn" href="{{ url_for('admin.create_college') }}">Add College</a></p>
+<p>
+  <a class="btn" href="{{ url_for('admin.create_college') }}">Add College</a>
+</p>
+
 <table class="table">
-  <thead><tr><th>Name</th><th>Location</th><th>Ranking</th><th>Avg Fee</th><th>Courses</th><th>Actions</th></tr></thead>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Website</th>
+      <th>Ranking</th>
+      <th>Average Fee</th>
+      <th>Placement Rating</th>
+      <th>Exam</th>
+      <th>Cutoff</th>
+      <th>Description</th>
+        <th>Courses</th>
+      <th>Facilities</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
   <tbody>
-  {% for item in items %}
-  <tr>
-    <td>{{ item.name }}</td>
-    <td>{{ item.location }}</td>
-    <td>{{ item.ranking }}</td>
-    <td>₹ {{ '%.0f'|format(item.avg_fee) if item.avg_fee }}</td>
-    <td>{{ ', '.join(item.courses or []) }}</td>
-    <td>
-      <a class="btn small" href="{{ url_for('admin.edit_college', name=item.name) }}">Edit</a>
-      <form method="post" action="{{ url_for('admin.delete_college', name=item.name) }}" style="display:inline">
-        <button class="btn danger small" type="submit">Delete</button>
-      </form>
-    </td>
-  </tr>
-  {% endfor %}
+    {% for item in items %}
+    <tr>
+      <td>{{ item.college_name }}</td>
+      <td>{{ item.city }}</td>
+      <td>{{ item.state }}</td>
+      <td>
+        <a href="{{ item.college_website }}" target="_blank" class="link">
+          {{ item.college_website }}
+        </a>
+      </td>
+      <td>{{ item.ranking }}</td>
+      <td>₹ {{ '%.0f'|format(item.avg_fee) if item.avg_fee }}</td>
+      <td>{{ item.placement_rating }}</td>
+      <td>{{ item.exam }}</td>
+      <td>{{ item.cutoff }}</td>
+      <td>{{ item.description }}</td>
+     <td>
+        {% if item.courses %}
+          {{ item.courses | join(', ') }}
+        {% else %}
+          <span>No Courses</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if item.facilities %}
+          {{ item.facilities | join(', ') }}
+        {% else %}
+          <span>No Facilities</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if item.image %}
+          <img src="{{ url_for('static', filename='image/' + item.image) }}" alt="{{ item.college_name }}" class="college-img">
+        {% else %}
+          <span>No Image</span>
+        {% endif %}
+      </td>
+      <td>
+        <a class="btn small" href="{{ url_for('admin.edit_college', id=item._id) }}">Edit</a>
+        <form method="post" action="{{ url_for('admin.delete_college', id=item._id) }}" style="display:inline">
+          <button class="btn danger small" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
   </tbody>
 </table>
+<ul class="pagination">
+  {% if page > 1 %}
+    <li><a href="{{ url_for('admin.list_colleges', page=page-1) }}">« Prev</a></li>
+  {% endif %}
+
+  {% for p in range(1, total_pages + 1) %}
+    <li><a href="{{ url_for('admin.list_colleges', page=p) }}" class="{{ 'active' if p == page else '' }}">{{ p }}</a></li>
+  {% endfor %}
+
+  {% if page < total_pages %}
+    <li><a href="{{ url_for('admin.list_colleges', page=page+1) }}">Next »</a></li>
+  {% endif %}
+</ul>
 {% endblock %}

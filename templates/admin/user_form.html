@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends 'admin/base.html' %}
+{% block content %}
 
-</body>
-</html>
+<a href="/admin/users" class="btn" style="margin-bottom: 15px; display:inline-block;">← Back</a>
+
+<h2>{{ 'Edit' if user else 'Add' }} User</h2>
+<form method="post" class="profile-card form">
+  <label>Name
+    <input type="text" name="name" value="{{ user.name if user }}">
+  </label>
+
+  <label>Email
+    <input type="email" name="email" value="{{ user.email if user }}">
+  </label>
+
+  <label>Password
+    <input type="password" name="password" value="{{ user.password if user }}" placeholder="Leave blank to keep current password">
+  </label>
+
+  <label>Role
+    <select name="role">
+      <option value="admin" {% if user and user.role=='admin' %}selected{% endif %}>Admin</option>
+      <option value="user" {% if user and user.role=='user' %}selected{% endif %}>User</option>
+    </select>
+  </label>
+
+  <button class="btn" type="submit">Save</button>
+</form>
+
+{% endblock %}

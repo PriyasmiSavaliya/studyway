@@ -1,9 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'admin/base.html' %}
 {% block content %}
-<h2>Admin Dashboard</h2>
+<h2>📊 Dashboard</h2>
 <div class="stats">
   <div class="stat">Users: {{ stats.user_count }}</div>
   <div class="stat">Colleges: {{ stats.college_count }}</div>
 </div>
-<p><a class="btn" href="{{ url_for('admin.list_colleges') }}">Manage Colleges</a></p>
+
+<canvas id="statsChart" width="400" height="200"></canvas>
+
+<script>
+const ctx = document.getElementById('statsChart');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Users', 'Colleges'],
+        datasets: [{
+            label: 'Admin Stats',
+            data: [{{ stats.user_count }}, {{ stats.college_count }}],
+            backgroundColor: ['#4f46e5','#22c55e']
+        }]
+    },
+    options: { responsive: true }
+});
+</script>
 {% endblock %}
