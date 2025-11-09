@@ -32,7 +32,8 @@ def register():
                 "password": hashed_password,
                 "role": "user",
                 "first_name": first_name,
-                "last_name": last_name
+                "last_name": last_name,
+                "name": f"{first_name} {last_name}"  # Add name field for compatibility
             }).inserted_id
 
             # Insert into students collection
@@ -40,11 +41,16 @@ def register():
                 "user_id": str(user_id),
                 "first_name": first_name,
                 "last_name": last_name,
+                "name": f"{first_name} {last_name}",
+                "email": email,  # Add email to students table for easy access
                 "academic_profile": {},
                 "location_pref": "",
                 "budget": None,
                 "desired_course": ""
             })
+
+            flash("Registration successful! Please login.", "success")
+            return redirect(url_for("auth.login"))
 
         elif role == "college":
             # College registration
@@ -71,8 +77,8 @@ def register():
                 "courses": courses_list
             })
 
-        flash("Registration successful! Please login.", "success")
-        return redirect(url_for("auth.login"))
+            flash("Registration successful! Please login.", "success")
+            return redirect(url_for("auth.login"))
 
     return render_template("auth/register.html")
 
@@ -91,10 +97,39 @@ def login():
             session["user_id"] = str(user["_id"])
             session["role"] = user.get("role", "user")
 
-            # Store name in session
+            # Handle student login - ensure student record exists and sync data
             if session["role"] == "user":
                 session["first_name"] = user.get("first_name", "")
                 session["last_name"] = user.get("last_name", "")
+                session["name"] = user.get("name", "")
+
+                # Check if student record exists, if not create it
+                student = db.students.find_one({"user_id": str(user["_id"])})
+                if not student:
+                    # Create student record if it doesn't exist
+                    db.students.insert_one({
+                        "user_id": str(user["_id"]),
+                        "first_name": user.get("first_name", ""),
+                        "last_name": user.get("last_name", ""),
+                        "name": user.get("name", f"{user.get('first_name', '')} {user.get('last_name', '')}"),
+                        "email": email,
+                        "academic_profile": {},
+                        "location_pref": "",
+                        "budget": None,
+                        "desired_course": ""
+                    })
+                else:
+                    # Sync user data with student record
+                    db.students.update_one(
+                        {"user_id": str(user["_id"])},
+                        {"$set": {
+                            "first_name": user.get("first_name", ""),
+                            "last_name": user.get("last_name", ""),
+                            "name": user.get("name", f"{user.get('first_name', '')} {user.get('last_name', '')}"),
+                            "email": email
+                        }}
+                    )
+
             elif session["role"] == "college":
                 session["college_name"] = user.get("college_name", "")
 
@@ -112,6 +147,7 @@ def login():
             return redirect(url_for("auth.login"))
 
     return render_template("auth/login.html")
+
 
 # ------------------- LOGOUT -------------------
 @auth_bp.route("/logout")

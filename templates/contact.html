@@ -1,35 +1,436 @@
-
 {% extends "base.html" %}
 
 {% block content %}
-<div class="contact-container">
-  <section class="contact-hero">
-    <h2>Contact Us</h2>
-    <p>We’d love to hear from you! Whether you have a question, feedback, or partnership idea, feel free to reach out.</p>
-  </section>
 
-  <div class="contact-grid">
-    <!-- Contact Information -->
-    <div class="contact-info">
-      <h3>Get in Touch</h3>
-      <ul>
-        <li><strong>Email:</strong> <a href="mailto:support@studyway.com">support@studyway.com</a></li>
-        <li><strong>Phone:</strong> +91 98765 43210</li>
-        <li><strong>Address:</strong> StudyWay HQ, India</li>
-      </ul>
-    </div>
+<!-- Contact Hero Section -->
+<section id="contact-hero" class="page-title section dark-background">
+  <div class="container">
+    <h2 data-aos="fade-up">Contact Us</h2>
+    <p data-aos="fade-up" data-aos-delay="100">We'd love to hear from you! Get in touch with our team</p>
+  </div>
+</section>
 
-    <!-- Contact Form -->
-    <div class="contact-form">
-      <h3>Send Us a Message</h3>
-      <form method="post" action="#">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
+<!-- Contact Section -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+        
+        <div class="contact-grid">
+          
+          <!-- Contact Information -->
+          <div class="contact-info-card">
+            <div class="card-header">
+              <h3><i class="bi bi-envelope-paper me-2"></i>Get in Touch</h3>
+              <p class="text-muted">Reach out to us through any of these channels</p>
+            </div>
+            
+            <div class="card-body">
+              <div class="contact-method">
+                <div class="contact-icon">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Email Us</h5>
+                  <p>Send us an email anytime</p>
+                  <a href="mailto:support@studyway.com" class="contact-link">support@studyway.com</a>
+                </div>
+              </div>
+
+              <div class="contact-method">
+                <div class="contact-icon">
+                  <i class="bi bi-telephone"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Call Us</h5>
+                  <p>Mon-Fri from 9am to 6pm</p>
+                  <a href="tel:+919876543210" class="contact-link">+91 98765 43210</a>
+                </div>
+              </div>
+
+              <div class="contact-method">
+                <div class="contact-icon">
+                  <i class="bi bi-geo-alt"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Visit Us</h5>
+                  <p>Come say hello at our office</p>
+                  <span class="contact-text">StudyWay HQ, India</span>
+                </div>
+              </div>
+
+              <div class="contact-method">
+                <div class="contact-icon">
+                  <i class="bi bi-clock"></i>
+                </div>
+                <div class="contact-details">
+                  <h5>Business Hours</h5>
+                  <p>We're here to help you</p>
+                  <span class="contact-text">Monday - Friday: 9:00 - 18:00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="contact-form-card">
+            <div class="card-header">
+              <h3><i class="bi bi-chat-dots me-2"></i>Send Us a Message</h3>
+              <p class="text-muted">Fill out the form below and we'll get back to you soon</p>
+            </div>
+            
+            <div class="card-body">
+              <form method="post" action="#" class="contact-form">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group mb-4">
+                      <label class="form-label">Your Name</label>
+                      <input type="text" class="form-control" name="name" placeholder="Enter your full name" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group mb-4">
+                      <label class="form-label">Your Email</label>
+                      <input type="email" class="form-control" name="email" placeholder="Enter your email address" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group mb-4">
+                  <label class="form-label">Subject</label>
+                  <input type="text" class="form-control" name="subject" placeholder="What is this regarding?">
+                </div>
+
+                <div class="form-group mb-4">
+                  <label class="form-label">Your Message</label>
+                  <textarea class="form-control" name="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-send me-2"></i>Send Message
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </div>
   </div>
-</div>
-{% endblock %}
+</section>
 
+<!-- FAQ Section -->
+<section id="contact-faq" class="section light-background">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center" data-aos="fade-up">
+        <h2>Frequently Asked Questions</h2>
+        <p class="text-muted mb-5">Quick answers to common questions</p>
+        
+        <div class="row text-start">
+          <div class="col-md-6">
+            <div class="faq-item">
+              <h5>How do I get college recommendations?</h5>
+              <p>Complete your student profile with academic details and preferences to get personalized college matches.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="faq-item">
+              <h5>Is StudyWay free to use?</h5>
+              <p>Yes, our basic services are completely free for students. We believe in accessible education guidance.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="faq-item">
+              <h5>How accurate are the recommendations?</h5>
+              <p>Our algorithm considers multiple factors including academics, budget, location, and course preferences.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="faq-item">
+              <h5>Can colleges partner with StudyWay?</h5>
+              <p>Absolutely! Colleges can register and list their programs to reach qualified students.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* Page Title Styling */
+.page-title.section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  text-align: center;
+}
+
+.page-title h2 {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.page-title p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Contact Grid */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Contact Cards */
+.contact-info-card,
+.contact-form-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  border: none;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  padding: 2rem;
+}
+
+.card-header h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+/* Contact Methods */
+.contact-method {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.contact-method:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.contact-icon {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.contact-icon i {
+  font-size: 1.25rem;
+}
+
+.contact-details h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.contact-details p {
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.contact-link {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #0a58ca;
+  text-decoration: underline;
+}
+
+.contact-text {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Form Styling */
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+  outline: none;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button Styling */
+.btn-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+/* FAQ Section */
+.faq-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-2px);
+}
+
+.faq-item h5 {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.faq-item p {
+  color: #6c757d;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title.section {
+    padding: 40px 0;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .card-header {
+    padding: 1.5rem;
+  }
+  
+  .contact-method {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .contact-icon {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .faq-item {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-grid {
+    gap: 1rem;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Animations */
+.contact-info-card,
+.contact-form-card,
+.faq-item {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state for form */
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Success message styling */
+.alert-success {
+  border: none;
+  border-radius: 10px;
+  background: rgba(25, 135, 84, 0.1);
+  color: #198754;
+  border-left: 4px solid #198754;
+}
+</style>
+
+{% endblock %}

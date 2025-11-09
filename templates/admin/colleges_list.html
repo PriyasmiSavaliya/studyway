@@ -1,7 +1,75 @@
 {% extends 'admin/base.html' %}
 {% block content %}
 
+<style>
+   .college-img {
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
 
+  /* Pagination styling */
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    gap: 5px;
+  }
+
+  .pagination li {
+    display: inline;
+  }
+
+  .pagination li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #007bff;
+  }
+
+  .pagination li a:hover {
+    background-color: #e9ecef;
+  }
+
+  .pagination li a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  /* Edit/Delete button styling */
+  .btn-edit {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  .btn-edit:hover {
+    background-color: #218838;
+    color: white;
+  }
+
+  .btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+  }
+
+  .btn-delete:hover {
+    background-color: #c82333;
+    color: white;
+  }
+  </style>
 <h2>Colleges</h2>
 <p>
   <a class="btn" href="{{ url_for('admin.create_college') }}">Add College</a>
@@ -65,9 +133,9 @@
         {% endif %}
       </td>
       <td>
-        <a class="btn small" href="{{ url_for('admin.edit_college', id=item._id) }}">Edit</a>
+        <a class="btn-edit" href="{{ url_for('admin.edit_college', id=item._id) }}">Edit</a>
         <form method="post" action="{{ url_for('admin.delete_college', id=item._id) }}" style="display:inline">
-          <button class="btn danger small" type="submit">Delete</button>
+          <button class="btn-delete" type="submit">Delete</button>
         </form>
       </td>
     </tr>

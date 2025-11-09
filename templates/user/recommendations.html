@@ -1,30 +1,457 @@
 {% extends 'base.html' %}
-{% block content %}
-<h2>College Recommendations for {{ student.first_name }} {{ student.last_name }}</h2>
 
-{% if recommendations %}
-    <div class="college-grid">
-        {% for college in recommendations %}
-            <div class="college-card">
-                {% if college.image %}
-                    <img src="{{ url_for('static', filename='image/' ~ college.image) }}" alt="{{ college.college_name }}" class="college-img">
-                {% endif %}
-                <h3>{{ college.college_name }}</h3>
-                <ul>
-                    <li><strong>Location:</strong> {{ college.city }}, {{ college.state }}</li>
-                    <li><strong>Courses:</strong> {{ college.courses | join(', ') }}</li>
-                    <li><strong>Average Fee:</strong> ₹{{ college.avg_fee }}</li>
-                    {% if college.placement_rating %}
-                        <li><strong>Placement Rating:</strong> {{ college.placement_rating }}/10</li>
-                    {% endif %}
-                    {% if college.college_website %}
-                        <li><strong>Website:</strong> <a href="{{ college.college_website }}" target="_blank">{{ college.college_website }}</a></li>
-                    {% endif %}
-                </ul>
+{% block content %}
+
+<!-- Recommendations Hero Section -->
+<section id="recommendations-hero" class="page-title section dark-background">
+  <div class="container">
+    <h2 data-aos="fade-up">College Recommendations</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Personalized college matches for {{ student.first_name }} {{ student.last_name }}</p>
+  </div>
+</section>
+
+<!-- Recommendations Section -->
+<section id="recommendations" class="section">
+  <div class="container">
+
+    <!-- Student Profile Summary -->
+    <div class="profile-summary mb-5" data-aos="fade-up">
+      <div class="row">
+        <div class="col-md-8">
+          <h4>Your Profile Summary</h4>
+          <div class="row">
+            <div class="col-sm-6">
+              <p><strong>Desired Course:</strong> {{ student.desired_course or 'Not specified' }}</p>
+              <p><strong>Preferred Location:</strong> {{ student.location_pref or 'Any' }}</p>
             </div>
-        {% endfor %}
+            <div class="col-sm-6">
+              <p><strong>Budget:</strong> {% if student.budget %}₹{{ "%.2f"|format(student.budget) }}{% else %}Not specified{% endif %}</p>
+              <p><strong>Academic Score:</strong>
+                {% if student.academic_profile and student.academic_profile.entrance_score %}
+                  {{ student.academic_profile.entrance_score }}
+                {% else %}
+                  Not specified
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <a href="{{ url_for('user.edit_profile') }}" class="btn btn-outline-primary">
+            <i class="bi bi-pencil me-2"></i>Update Profile
+          </a>
+        </div>
+      </div>
     </div>
-{% else %}
-    <p>No suitable colleges found for your profile.</p>
-{% endif %}
+
+    {% if recommendations %}
+    <!-- Results Count -->
+    <div class="results-count mb-4" data-aos="fade-up" data-aos-delay="100">
+      <h5>Found {{ recommendations|length }} college{{ 's' if recommendations|length != 1 }} matching your profile</h5>
+    </div>
+
+    <!-- College Grid -->
+    <div class="row gy-4">
+      {% for college in recommendations %}
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+        <div class="college-card">
+
+          <!-- College Image -->
+          <div class="college-image">
+            {% if college.image %}
+              <img src="{{ url_for('static', filename='image/' ~ college.image) }}"
+                   alt="{{ college.college_name }}"
+                   class="img-fluid">
+            {% else %}
+              <div class="college-image-placeholder">
+                <i class="bi bi-building"></i>
+              </div>
+            {% endif %}
+
+            <!-- Placement Rating Badge -->
+            {% if college.placement_rating %}
+            <div class="rating-badge">
+              <i class="bi bi-star-fill"></i>
+              {{ college.placement_rating }}/10
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- College Content -->
+          <div class="college-content">
+            <h3 class="college-name">{{ college.college_name }}</h3>
+<div class="match-score mb-3">
+  <div class="d-flex justify-content-between align-items-center mb-1">
+    <small class="text-muted">Match Score</small>
+    <strong class="text-primary">{{ college.match_percentage }}</strong>
+  </div>
+  <div class="progress" style="height: 6px;">
+    <div class="progress-bar"
+         style="width: {{ college.match_score }}%; background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+    </div>
+  </div>
+</div>
+            <!-- Location -->
+            <div class="college-info">
+              <i class="bi bi-geo-alt"></i>
+              <span>{{ college.city }}, {{ college.state }}</span>
+            </div>
+
+            <!-- Courses -->
+            <div class="college-info">
+              <i class="bi bi-book"></i>
+              <span>
+                {% if college.courses is string %}
+                  {{ college.courses }}
+                {% else %}
+                  {{ college.courses | join(', ') }}
+                {% endif %}
+              </span>
+            </div>
+
+            <!-- Fee -->
+            <div class="college-info">
+              <i class="bi bi-currency-rupee"></i>
+              <span>₹{{ "{:,.2f}".format(college.avg_fee|float) if college.avg_fee else 'Not specified' }}</span>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="college-details">
+              {% if college.exam_accepted %}
+              <div class="detail-item">
+                <strong>Exams:</strong> {{ college.exam_accepted }}
+              </div>
+              {% endif %}
+
+              {% if college.facilities %}
+              <div class="detail-item">
+                <strong>Facilities:</strong>
+                {% if college.facilities is string %}
+                  {{ college.facilities }}
+                {% else %}
+                  {{ college.facilities | join(', ') }}
+                {% endif %}
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Website Link -->
+            {% if college.college_website %}
+            <div class="college-actions">
+              <a href="{{ college.college_website }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-globe me-1"></i>Visit Website
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- No Results State -->
+    <div class="no-results text-center py-5" data-aos="fade-up">
+      <div class="no-results-icon mb-4">
+        <i class="bi bi-search display-1 text-muted"></i>
+      </div>
+      <h3 class="mb-3">No Colleges Found</h3>
+      <p class="text-muted mb-4">We couldn't find any colleges matching your current profile criteria.</p>
+      <div class="suggestions">
+        <p class="mb-3"><strong>Suggestions:</strong></p>
+        <ul class="list-unstyled">
+          <li><i class="bi bi-check-circle text-success me-2"></i>Update your desired course</li>
+          <li><i class="bi bi-check-circle text-success me-2"></i>Adjust your budget range</li>
+          <li><i class="bi bi-check-circle text-success me-2"></i>Consider different locations</li>
+        </ul>
+      </div>
+      <a href="{{ url_for('user.edit_profile') }}" class="btn btn-primary mt-4">
+        <i class="bi bi-pencil me-2"></i>Update Your Profile
+      </a>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+/* Page Title Styling */
+.page-title.section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  text-align: center;
+}
+
+.page-title h2 {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.page-title p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Profile Summary */
+.profile-summary {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  border-left: 4px solid #0d6efd;
+}
+
+.profile-summary h4 {
+  color: #495057;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.profile-summary p {
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+}
+
+/* Results Count */
+.results-count h5 {
+  color: #495057;
+  font-weight: 600;
+}
+
+/* College Card */
+.college-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid #e9ecef;
+}
+
+.college-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+}
+
+/* College Image */
+.college-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.college-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.college-card:hover .college-image img {
+  transform: scale(1.05);
+}
+
+.college-image-placeholder {
+  height: 100%;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+}
+
+.college-image-placeholder i {
+  font-size: 3rem;
+}
+
+/* Rating Badge */
+.rating-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 193, 7, 0.95);
+  color: #000;
+  padding: 0.5rem 0.75rem;
+  border-radius: 25px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* College Content */
+.college-content {
+  padding: 1.5rem;
+}
+
+.college-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #495057;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.college-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  color: #6c757d;
+}
+
+.college-info i {
+  margin-right: 0.5rem;
+  width: 16px;
+  color: #0d6efd;
+}
+
+.college-details {
+  margin: 1rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.detail-item {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.detail-item strong {
+  color: #495057;
+}
+
+.college-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Buttons */
+.btn-outline-primary {
+  border: 2px solid #0d6efd;
+  color: #0d6efd;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: #0d6efd;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+}
+
+/* No Results State */
+.no-results {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  padding: 3rem !important;
+}
+
+.no-results-icon {
+  color: #6c757d;
+}
+
+.suggestions {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.suggestions li {
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-summary {
+    padding: 1.5rem;
+  }
+
+  .college-content {
+    padding: 1.25rem;
+  }
+
+  .college-name {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-title.section {
+    padding: 40px 0;
+  }
+
+  .profile-summary .row {
+    flex-direction: column;
+  }
+
+  .profile-summary .text-md-end {
+    text-align: left !important;
+    margin-top: 1rem;
+  }
+}
+
+/* Animation for cards */
+.college-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.match-score {
+  margin: 1rem 0;
+}
+
+.match-score .progress {
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.match-score .progress-bar {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  transition: width 0.3s ease;
+}
+
+.match-score .progress-bar::after {
+  content: attr(aria-valuenow) "% Match";
+  position: absolute;
+  right: 10px;
+  top: -25px;
+  background: #495057;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+</style>
+
 {% endblock %}

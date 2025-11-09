@@ -1,47 +1,438 @@
 {% extends 'base.html' %}
-{% block content %}
-<h2 style="margin-bottom:20px;">Student Profile</h2>
 
-{% if user %}
-  <div class="profile-card">
-    <form method="post" class="form">
-      <label>First Name
-        <input type="text" name="first_name" value="{{ user.first_name }}" readonly>
-      </label>
-      <label>Last Name
-        <input type="text" name="last_name" value="{{ user.last_name }}" readonly>
-      </label>
-      <label>10th %:
-        <input type="number" step="0.01" name="tenth_percent" value="{{ user.academic_profile.tenth_percent if user.academic_profile else '' }}">
-      </label>
-      <label>12th %:
-        <input type="number" step="0.01" name="twelfth_percent" value="{{ user.academic_profile.twelfth_percent if user.academic_profile else '' }}">
-      </label>
-      <label>Graduation CGPA:
-        <input type="number" step="0.01" name="graduation_cgpa" value="{{ user.academic_profile.graduation_cgpa if user.academic_profile else '' }}">
-      </label>
-      <label>Entrance Score:
-        <input type="number" step="0.01" name="entrance_score" value="{{ user.academic_profile.entrance_score if user.academic_profile else '' }}">
-      </label>
-     <label>Desired Course:
-  <select name="desired_course">
-    {% for course in courses %}
-      <option value="{{ course }}" {% if user.desired_course == course %}selected{% endif %}>
-        {{ course }}
-      </option>
-    {% endfor %}
-  </select>
-</label>
-      <label>Preferred Location:
-        <input type="text" name="location_pref" value="{{ user.location_pref or '' }}">
-      </label>
-      <label>Budget:
-        <input type="number" step="0.01" name="budget" value="{{ user.budget or '' }}">
-      </label>
-      <button type="submit" class="btn">Save Profile</button>
-    </form>
+{% block content %}
+
+<!-- Profile Hero Section -->
+<section id="profile-hero" class="page-title section dark-background">
+  <div class="container">
+    <h2 data-aos="fade-up">Student Profile</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Manage your academic profile and preferences</p>
   </div>
-{% else %}
-  <p>Error: User not found.</p>
-{% endif %}
+</section>
+
+<!-- Profile Section -->
+<section id="profile" class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10" data-aos="fade-up" data-aos-delay="100">
+
+        {% if user %}
+        <div class="profile-card">
+          <div class="card-header">
+            <h3><i class="bi bi-person-circle me-2"></i>Profile Information</h3>
+            <p class="text-muted mb-0">Update your academic details for better college recommendations</p>
+          </div>
+
+          <div class="card-body">
+            <form method="post" class="profile-form">
+
+              <!-- Personal Information -->
+              <div class="form-section">
+                <h5 class="section-title">Personal Information</h5>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">First Name</label>
+                      <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}" readonly>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Last Name</label>
+                      <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Academic Information -->
+              <div class="form-section">
+                <h5 class="section-title">Academic Information</h5>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">10th Percentage</label>
+                      <input type="number" step="0.01" class="form-control" name="tenth_percent"
+                             value="{{ user.academic_profile.tenth_percent if user.academic_profile else '' }}"
+                             placeholder="Enter 10th percentage">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">12th Percentage</label>
+                      <input type="number" step="0.01" class="form-control" name="twelfth_percent"
+                             value="{{ user.academic_profile.twelfth_percent if user.academic_profile else '' }}"
+                             placeholder="Enter 12th percentage">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Graduation CGPA</label>
+                      <input type="number" step="0.01" class="form-control" name="graduation_cgpa"
+                             value="{{ user.academic_profile.graduation_cgpa if user.academic_profile else '' }}"
+                             placeholder="Enter CGPA">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Entrance Score</label>
+                      <input type="number" step="0.01" class="form-control" name="entrance_score"
+                             value="{{ user.academic_profile.entrance_score if user.academic_profile else '' }}"
+                             placeholder="Enter entrance score">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Preferences -->
+              <div class="form-section">
+                <h5 class="section-title">Preferences</h5>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Desired Course</label>
+                      <select class="form-select" name="desired_course">
+                        {% for course in courses %}
+                          <option value="{{ course }}" {% if user.desired_course == course %}selected{% endif %}>
+                            {{ course }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Preferred Location</label>
+                      <input type="text" class="form-control" name="location_pref"
+                             value="{{ user.location_pref or '' }}"
+                             placeholder="Enter preferred location">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Budget (₹)</label>
+                      <input type="number" step="0.01" class="form-control" name="budget"
+                             value="{{ user.budget or '' }}"
+                             placeholder="Enter your budget">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Save Button -->
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-check-circle me-2"></i>Save Profile
+                </button>
+                <a href="{{ url_for('user.edit_profile') }}" class="btn btn-outline-secondary ms-2">
+                  <i class="bi bi-pencil me-2"></i>Edit Personal Info
+                </a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        {% else %}
+        <!-- Error State -->
+        <div class="error-state text-center py-5">
+          <i class="bi bi-exclamation-triangle display-1 text-muted"></i>
+          <h3 class="mt-3">User Not Found</h3>
+          <p class="text-muted">We couldn't find your profile information.</p>
+          <a href="{{ url_for('auth.login') }}" class="btn btn-primary mt-3">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Login Again
+          </a>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* Page Title Styling */
+.page-title.section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  text-align: center;
+}
+
+.page-title h2 {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.page-title p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Profile Card Styling */
+.profile-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  border: none;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  padding: 2rem;
+}
+
+.card-header h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+/* Form Sections */
+.form-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  margin-right: 10px;
+  border-radius: 2px;
+}
+
+/* Form Layout */
+.row {
+  margin-bottom: 1rem;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  display: block;
+}
+
+/* Form Controls */
+.form-control, .form-select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  width: 100%;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+  outline: none;
+}
+
+.form-control[readonly] {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Select Styling */
+.form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-size: 16px 12px;
+  background-repeat: no-repeat;
+  appearance: none;
+}
+
+/* Button Styling */
+.form-actions {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.btn {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+}
+
+.btn-outline-secondary {
+  background: white;
+  border: 2px solid #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background: #6c757d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Error State */
+.error-state {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  padding: 3rem !important;
+}
+
+.error-state p {
+  color: #dc3545;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-card {
+    margin: 0 1rem;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-header {
+    padding: 1.5rem;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ms-2 {
+    margin-left: 0 !important;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-title.section {
+    padding: 40px 0;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .form-control, .form-select {
+    padding: 0.65rem 0.85rem;
+  }
+}
+
+/* Animation for form sections */
+.form-section {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.form-control:focus-visible,
+.form-select:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+}
+
+/* Loading state for button */
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Placeholder styling */
+.form-control::placeholder {
+  color: #6c757d;
+  opacity: 0.7;
+}
+</style>
+
 {% endblock %}

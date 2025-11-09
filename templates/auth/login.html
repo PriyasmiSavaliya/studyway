@@ -1,10 +1,271 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Login</h2>
-<form method="post" class="form">
-  <label>Email <input type="email" name="email" required></label>
-  <label>Password <input type="password" name="password" required></label>
-  <button class="btn" type="submit">Login</button>
-</form>
-<p>New here? <a href="{{ url_for('auth.register') }}">Create an account</a></p>
+
+<!-- Login Hero Section -->
+<section id="login-hero" class="page-title section dark-background">
+  <div class="container">
+    <h2 data-aos="fade-up">Welcome Back</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Sign in to your StudyWay account</p>
+  </div>
+</section>
+
+<!-- Login Section -->
+<section id="login" class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="login-card">
+          <div class="card-header text-center">
+            <h3>Login to Your Account</h3>
+            <p class="text-muted">Access your personalized college recommendations</p>
+          </div>
+
+          <div class="card-body">
+            <form method="post" class="login-form">
+              <div class="form-group mb-4">
+                <label for="email" class="form-label">Email Address</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+                  <input type="email" class="form-control" id="email" name="email"
+                         placeholder="Enter your email" required>
+                </div>
+              </div>
+
+              <div class="form-group mb-4">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-lock"></i>
+                  </span>
+                  <input type="password" class="form-control" id="password" name="password"
+                         placeholder="Enter your password" required>
+                </div>
+              </div>
+
+              <div class="form-group mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="remember">
+                  <label class="form-check-label" for="remember">
+                    Remember me
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group mb-4">
+                <button type="submit" class="btn btn-primary w-100 py-2">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </button>
+              </div>
+
+              {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                  {% for category, message in messages %}
+                    {% if category == 'error' %}
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>{{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
+            </form>
+          </div>
+
+          <div class="card-footer text-center">
+            <p class="mb-0">
+              New to StudyWay?
+              <a href="{{ url_for('auth.register') }}" class="register-link">Create an account</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="login-features" class="section light-background">
+  <div class="container">
+    <div class="row gy-4">
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-item text-center">
+          <div class="feature-icon mb-3">
+            <i class="bi bi-person-check" style="color: #0d6efd; font-size: 2.5rem;"></i>
+          </div>
+          <h5>Personalized Experience</h5>
+          <p class="text-muted">Get customized college recommendations based on your preferences</p>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-item text-center">
+          <div class="feature-icon mb-3">
+            <i class="bi bi-heart" style="color: #0d6efd; font-size: 2.5rem;"></i>
+          </div>
+          <h5>Save Favorites</h5>
+          <p class="text-muted">Bookmark your favorite colleges and compare them easily</p>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-item text-center">
+          <div class="feature-icon mb-3">
+            <i class="bi bi-bell" style="color: #0d6efd; font-size: 2.5rem;"></i>
+          </div>
+          <h5>Get Notified</h5>
+          <p class="text-muted">Receive updates on admission dates and important deadlines</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.page-title.section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  text-align: center;
+}
+
+.page-title h2 {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.page-title p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.login-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  border: none;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  padding: 2rem;
+}
+
+.card-header h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-footer {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.input-group-text {
+  background: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-right: none;
+}
+
+.form-control {
+  border-left: none;
+  padding: 0.75rem;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  border: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+}
+
+.register-link {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+  color: #0a58ca;
+}
+
+.feature-item {
+  padding: 2rem 1rem;
+}
+
+.feature-item h5 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.feature-item p {
+  line-height: 1.6;
+}
+
+.alert {
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+}
+
+.alert-danger {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border-left: 4px solid #dc3545;
+}
+
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .login-card {
+    margin: 0 1rem;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-header {
+    padding: 1.5rem;
+  }
+}
+</style>
+
 {% endblock %}

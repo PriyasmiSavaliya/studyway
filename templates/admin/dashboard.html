@@ -1,26 +1,497 @@
-{% extends 'admin/base.html' %}
-{% block content %}
-<h2>📊 Dashboard</h2>
-<div class="stats">
-  <div class="stat">Users: {{ stats.user_count }}</div>
-  <div class="stat">Colleges: {{ stats.college_count }}</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>StudyWay Admin Dashboard</title>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/app.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/custom.css') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon.ico') }}">
+</head>
+
+<body>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg main-navbar sticky">
+        <div class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn">
+              <i data-feather="align-justify"></i></a></li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+              <i data-feather="maximize"></i></a></li>
+            <li>
+              <form class="form-inline mr-auto">
+                <div class="search-element">
+                  <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
+                  <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+              </form>
+            </li>
+          </ul>
+        </div>
+
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" data-toggle="dropdown"
+              class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <img alt="image" src="{{ url_for('static', filename='assets/img/user.png') }}">
+              <span class="d-sm-none d-lg-inline-block"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right pullDown">
+              <div class="dropdown-title">
+                  Hello, {{ admin_name }}
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="{{ url_for('auth.logout') }}" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar -->
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <a href="{{ url_for('admin.dashboard') }}">
+<!--              <img alt="image" src="{{ url_for('static', filename='assets/img/logo.png') }}">-->
+              <span class="logo-name">StudyWay Admin</span>
+            </a>
+          </div>
+          <ul class="sidebar-menu">
+            <li class="menu-header">Main</li>
+            <li class="{{ 'active' if '/dashboard' in request.path else '' }}">
+              <a href="{{ url_for('admin.dashboard') }}" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+            </li>
+            <li class="{{ 'active' if '/users' in request.path else '' }}">
+              <a href="{{ url_for('admin.list_users') }}" class="nav-link"><i data-feather="users"></i><span>Users</span></a>
+            </li>
+            <li class="{{ 'active' if '/colleges' in request.path else '' }}">
+              <a href="{{ url_for('admin.list_colleges') }}" class="nav-link"><i data-feather="book-open"></i><span>Colleges</span></a>
+            </li>
+            <li><a href="{{ url_for('auth.logout') }}" class="nav-link"><i data-feather="log-out"></i><span>Logout</span></a></li>
+          </ul>
+        </aside>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="row">
+            <!-- Cards Section -->
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="row">
+                    <div class="col-lg-6 pr-0 pt-3">
+                      <div class="card-content">
+                        <h5>Total Users</h5>
+                        <h3>{{ total_users }}</h3>
+                        <p><span class="col-green">{{ user_growth_percentage }}%</span> Increase this month</p>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 pl-0"><img src="{{ url_for('static', filename='assets/img/banner/1.png') }}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="row">
+                    <div class="col-lg-6 pr-0 pt-3">
+                      <div class="card-content">
+                        <h5>Total Colleges</h5>
+                        <h3>{{ total_colleges }}</h3>
+                        <p><span class="col-orange">{{ top_state_colleges }}</span> Most colleges here</p>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 pl-0"><img src="{{ url_for('static', filename='assets/img/banner/2.png') }}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="row">
+                    <div class="col-lg-6 pr-0 pt-3">
+                      <div class="card-content">
+                        <h5>Top College</h5>
+                        <h3>{{ top_college_name }}</h3>
+                        <p>Rank: {{ top_college_rank }}</p>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 pl-0"><img src="{{ url_for('static', filename='assets/img/banner/3.png') }}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="row">
+                    <div class="col-lg-6 pr-0 pt-3">
+                      <div class="card-content">
+                        <h5>Model Accuracy</h5>
+                        {% if model_metrics %}
+                          <h3>R²: {{ model_metrics.r2_score }}</h3>
+                          <p>RMSE: {{ model_metrics.rmse }}</p>
+                        {% else %}
+                          <p>Not enough data</p>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="col-lg-6 pl-0"><img src="{{ url_for('static', filename='assets/img/banner/4.png') }}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         <div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header"><h4>Top 10 Colleges by Ranking</h4></div>
+      <div class="card-body">
+        <div id="chart1"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<canvas id="statsChart" width="400" height="200"></canvas>
+          <!-- Three Charts -->
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-header"><h4>College Distribution by State</h4></div>
+                <div class="card-body"><div id="chart2" class="chartsh"></div></div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-header"><h4>User Growth Over Time</h4></div>
+                <div class="card-body"><div id="chart3" class="chartsh"></div></div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-header"><h4>Course Placement Ratings</h4></div>
+                <div class="card-body"><div id="chart4" class="chartsh"></div></div>
+              </div>
+            </div>
+          </div>
 
-<script>
-const ctx = document.getElementById('statsChart');
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Users', 'Colleges'],
-        datasets: [{
-            label: 'Admin Stats',
-            data: [{{ stats.user_count }}, {{ stats.college_count }}],
-            backgroundColor: ['#4f46e5','#22c55e']
-        }]
+          <!-- Support Ticket & Project Payments -->
+          <div class="row">
+  <!-- Recent Users -->
+  <div class="col-xl-6 col-md-12 mb-4">
+    <div class="card shadow-sm border-0 rounded-3">
+      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top">
+        <h4 class="mb-0"><i class="fas fa-users mr-2"></i>Recent Users</h4>
+      </div>
+      <div class="card-body">
+        {% if users %}
+          {% for user in users[-5:]|reverse %}
+          <div class="d-flex align-items-center mb-3 p-2 border-bottom hover-row">
+            <div class="avatar-circle bg-gradient">
+              <span class="initials">{{ user.name[0]|upper }}</span>
+            </div>
+            <div class="ml-3">
+              <h6 class="mb-0 font-weight-semibold"  style="color:#000000;">{{ user.name }}</h6>
+              <small class="text-muted" style="color:#374151;">{{ user.email }}</small><br>
+<small class="text-secondary" style="color:#374151;">
+  Joined: {{ user['created_at'].strftime('%d-%m-%Y') if user.get('created_at') else 'N/A' }}
+</small>            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted text-center mb-0">No recent users found.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Courses -->
+  <div class="col-xl-6 col-md-12 mb-4">
+    <div class="card shadow-sm border-0 rounded-3">
+      <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top">
+        <h4 class="mb-0"><i class="fas fa-book-open mr-2"></i>Top Courses</h4>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="text-center">#</th>
+              <th>Course</th>
+              <th class="text-right pr-3">Enrolled Students</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i, course in enumerate(course_data['courses']) %}
+            <tr class="hover-row">
+              <td class="text-center font-weight-bold text-primary">{{ i+1 }}</td>
+              <td>{{ course }}</td>
+              <td class="text-right pr-3 text-success font-weight-semibold">{{ course_data['counts'][i] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+        </section>
+          <div class="settingSidebar">
+          <a href="javascript:void(0)" class="settingPanelToggle"> <i class="fa fa-spin fa-cog"></i>
+          </a>
+          <div class="settingSidebar-body ps-container ps-theme-default">
+            <div class=" fade show active">
+              <div class="setting-panel-header">Setting Panel
+              </div>
+              <div class="p-15 border-bottom">
+                <h6 class="font-medium m-b-10">Select Layout</h6>
+                <div class="selectgroup layout-color w-50">
+                  <label class="selectgroup-item">
+                    <input type="radio" name="value" value="1" class="selectgroup-input-radio select-layout" checked>
+                    <span class="selectgroup-button">Light</span>
+                  </label>
+                  <label class="selectgroup-item">
+                    <input type="radio" name="value" value="2" class="selectgroup-input-radio select-layout">
+                    <span class="selectgroup-button">Dark</span>
+                  </label>
+                </div>
+              </div>
+              <div class="p-15 border-bottom">
+                <h6 class="font-medium m-b-10">Sidebar Color</h6>
+                <div class="selectgroup selectgroup-pills sidebar-color">
+                  <label class="selectgroup-item">
+                    <input type="radio" name="icon-input" value="1" class="selectgroup-input select-sidebar">
+                    <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                      data-original-title="Light Sidebar"><i class="fas fa-sun"></i></span>
+                  </label>
+                  <label class="selectgroup-item">
+                    <input type="radio" name="icon-input" value="2" class="selectgroup-input select-sidebar" checked>
+                    <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                      data-original-title="Dark Sidebar"><i class="fas fa-moon"></i></span>
+                  </label>
+                </div>
+              </div>
+              <div class="p-15 border-bottom">
+                <h6 class="font-medium m-b-10">Color Theme</h6>
+                <div class="theme-setting-options">
+                  <ul class="choose-theme list-unstyled mb-0">
+                    <li title="white" class="active">
+                      <div class="white"></div>
+                    </li>
+                    <li title="cyan">
+                      <div class="cyan"></div>
+                    </li>
+                    <li title="black">
+                      <div class="black"></div>
+                    </li>
+                    <li title="purple">
+                      <div class="purple"></div>
+                    </li>
+                    <li title="orange">
+                      <div class="orange"></div>
+                    </li>
+                    <li title="green">
+                      <div class="green"></div>
+                    </li>
+                    <li title="red">
+                      <div class="red"></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="p-15 border-bottom">
+                <div class="theme-setting-options">
+                  <label class="m-b-0">
+                    <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                      id="mini_sidebar_setting">
+                    <span class="custom-switch-indicator"></span>
+                    <span class="control-label p-l-10">Mini Sidebar</span>
+                  </label>
+                </div>
+              </div>
+              <div class="p-15 border-bottom">
+                <div class="theme-setting-options">
+                  <label class="m-b-0">
+                    <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                      id="sticky_header_setting">
+                    <span class="custom-switch-indicator"></span>
+                    <span class="control-label p-l-10">Sticky Header</span>
+                  </label>
+                </div>
+              </div>
+              <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
+                <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
+                  <i class="fas fa-undo"></i> Restore Default
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="main-footer">
+        <div class="footer-left">
+          © 2025 StudyWay Admin Panel
+        </div>
+        <div class="footer-right"></div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- General JS Scripts -->
+  <script src="{{ url_for('static', filename='assets/js/app.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/bundles/apexcharts/apexcharts.min.js') }}"></script>
+
+  <script>
+  // ==== Chart 1 (Top Colleges Ranking) ====
+  var chart1 = new ApexCharts(document.querySelector("#chart1"), {
+    chart: { type: 'bar', height: 320 },
+    series: [{
+      name: 'Ranking',
+      data: {{ top_colleges['rankings'] | safe }}
+    }],
+    xaxis: {
+      categories: {{ top_colleges['colleges'] | safe }},
+      title: { text: 'Colleges' }
     },
-    options: { responsive: true }
-});
+    yaxis: {
+      reversed: true,
+      title: { text: 'Ranking' }
+    },
+    colors: ['#4F46E5'],
+    tooltip: {
+      y: { formatter: function (val) { return "Rank " + val; } }
+    }
+  });
+  chart1.render();
+
+  // ==== Chart 2 (College Distribution by State) ====
+  var chart2 = new ApexCharts(document.querySelector("#chart2"), {
+    chart: { type: 'bar', height: 280 },
+    series: [{
+      name: 'Number of Colleges',
+      data: {{ state_data['counts'] | safe }}
+    }],
+    xaxis: {
+      categories: {{ state_data['states'] | safe }},
+      title: { text: 'State' }
+    },
+    yaxis: {
+      title: { text: 'Number of Colleges' }
+    },
+    colors: ['#3B82F6', '#10B981', '#F59E0B'], // blue, green, yellow
+    plotOptions: {
+      bar: {
+        borderRadius: 8,
+        distributed: true,
+        columnWidth: '55%'
+      }
+    },
+    tooltip: {
+      y: { formatter: (val) => val + " Colleges" }
+    },
+    grid: { borderColor: '#f1f1f1' }
+  });
+  chart2.render();
+
+  // ==== Chart 3 (User Growth Over Time) ====
+  var chart3 = new ApexCharts(document.querySelector("#chart3"), {
+    chart: { type: 'area', height: 280 },
+    series: [{
+      name: 'New Users',
+      data: {{ user_growth['counts'] | safe }}
+    }],
+    xaxis: {
+      categories: {{ user_growth['months'] | safe }},
+      title: { text: 'Month' }
+    },
+    yaxis: {
+      title: { text: 'Number of Users' }
+    },
+    colors: ['#6366F1', '#EC4899'], // indigo + pink gradient
+    stroke: {
+      width: 4,
+      curve: 'smooth'
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'light',
+        type: "vertical",
+        gradientToColors: ['#EC4899'],
+        stops: [0, 100]
+      }
+    },
+    markers: {
+      size: 5,
+      colors: ['#fff'],
+      strokeColors: '#6366F1',
+      strokeWidth: 3
+    },
+    grid: { borderColor: '#f1f1f1' },
+    tooltip: {
+      y: { formatter: (val) => val + " Users" }
+    }
+  });
+  chart3.render();
+
+  // ==== Chart 4 (Course Placement Ratings - Bubble) ====
+  var chart4 = new ApexCharts(document.querySelector("#chart4"), {
+    chart: { type: 'bubble', height: 280 },
+    series: [{
+      name: 'Courses',
+      data: [
+        {% for i in range(chart4_data['courses']|length) %}
+        {
+          x: "{{ chart4_data['courses'][i] }}",
+          y: {{ chart4_data['avg_rating'][i] }},
+          z: {{ chart4_data['num_students'][i] }}
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }],
+    colors: ['#F87171', '#FB923C', '#34D399', '#60A5FA', '#A78BFA'], // red, orange, green, blue, violet
+    xaxis: {
+      title: { text: 'Courses' },
+      labels: { rotate: -45 }
+    },
+    yaxis: {
+      title: { text: 'Average Placement Rating' }
+    },
+    tooltip: {
+      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+        const course = w.config.series[0].data[dataPointIndex].x;
+        const rating = w.config.series[0].data[dataPointIndex].y;
+        const students = w.config.series[0].data[dataPointIndex].z;
+        return `<strong>${course}</strong><br>Rating: ${rating}<br>Students: ${students}`;
+      }
+    }
+  });
+  chart4.render();
 </script>
-{% endblock %}
+
+
+  <script src="{{ url_for('static', filename='assets/js/scripts.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+</body>
+</html>

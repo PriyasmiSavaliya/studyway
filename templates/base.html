@@ -1,84 +1,163 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>StudyWay</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/college.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
 
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='assets/img/favicon.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{{ url_for('static', filename='assets/css/main.css') }}" rel="stylesheet">
 </head>
-<body>
-<header class="nav">
-  <a href="{{ url_for('home') }}" class="brand">StudyWay</a>
 
-  <nav>
-  <a href="{{ url_for('home') }}">Home</a>
-  <a href="{{ url_for('college.list_colleges') }}">Colleges</a>
+<body class="index-page">
 
-<a href="{{ url_for('about') }}">About</a>
-<a href="{{ url_for('contact') }}">Contact Us</a>
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
+      <a href="{{ url_for('home') }}" class="logo d-flex align-items-center me-auto">
+        <h1 class="sitename">StudyWay</h1>
+      </a>
 
-  {% if session.get('user_id') %}
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
+          <li><a href="{{ url_for('college.list_colleges') }}">Colleges</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
 
-      {% if session.get('role') == 'user' %}
-          <a href="{{ url_for('user.recommendations') }}">Recommendations</a>
-        <!-- Student Icon with Dropdown -->
-        <div class="user-nav">
-  <button class="hello-msg" id="userDropdownBtn">👤 Hello, {{ session.get('first_name') }}!</button>
-  <div class="dropdown" id="userDropdown">
-    <a href="{{ url_for('user.profile') }}">Profile</a>
-    <a href="{{ url_for('user.edit_profile') }}">Edit Profile</a>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
-  </div>
-</div>
-      {% elif session.get('role') == 'college' %}
-        <span class="hello-msg">🏫 Hello, {{ session.get('college_name') }}!</span>
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-      {% else %}
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-      {% endif %}
-    {% else %}
-      <a href="{{ url_for('auth.login') }}">Login</a>
-      <a href="{{ url_for('auth.register') }}">Register</a>
-    {% endif %}
-  </nav>
-</header>
-<main class="container">
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <ul class="flashes">
-      {% for category, message in messages %}
-        <li class="flash {{ category }}">{{ message }}</li>
-      {% endfor %}
+          <!-- In base.html - update the dropdown section -->
+{% if session.get('user_id') %}
+  {% if session.get('role') == 'user' %}
+    <li><a href="{{ url_for('user.recommendations') }}">Recommendations</a></li>
+    <li class="dropdown">
+      <a href="#"><span>👤 Hello, {{ session.get('first_name') }}!</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+      <ul>
+        <li><a href="{{ url_for('user.edit_profile') }}">Edit Profile</a></li>
+        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
       </ul>
-    {% endif %}
-  {% endwith %}
-  {% block content %}{% endblock %}
-</main>
-<footer class="footer">
-  <p>© {{ 2025 }} StudyWay</p>
-</footer>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const btn = document.getElementById("userDropdownBtn");
-    const dropdown = document.getElementById("userDropdown");
+    </li>
+  {% elif session.get('role') == 'college' %}
+    <li><a href="#">🏫 Hello, {{ session.get('college_name') }}!</a></li>
+    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+  {% else %}
+    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+  {% endif %}
+{% else %}
+  <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+  <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+{% endif %}
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
 
-    btn.addEventListener("click", function(event) {
-      dropdown.classList.toggle("show");
-      event.stopPropagation();
-    });
+      <a class="btn-getstarted" href="{{ url_for('college.list_colleges') }}">Browse Colleges</a>
 
-    // Close dropdown if clicked outside
-    document.addEventListener("click", function() {
-      dropdown.classList.remove("show");
-    });
-  });
-</script>
+    </div>
+  </header>
+
+  <main class="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container mt-4">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ 'danger' if category == 'error' else 'info' }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer id="footer" class="footer position-relative light-background">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="{{ url_for('home') }}" class="logo d-flex align-items-center">
+            <span class="sitename">StudyWay</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>Find the right college for you</p>
+            <p>Compare courses, fees, eligibility and rankings</p>
+            <p class="mt-3"><strong>Email:</strong> <span>info@studyway.com</span></p>
+          </div>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About us</a></li>
+            <li><a href="{{ url_for('college.list_colleges') }}">Colleges</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">College Search</a></li>
+            <li><a href="#">Recommendations</a></li>
+            <li><a href="#">College Comparison</a></li>
+            <li><a href="#">Admission Guidance</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12 footer-newsletter">
+          <h4>Our Newsletter</h4>
+          <p>Subscribe to our newsletter and receive the latest updates about colleges and admissions!</p>
+          <form action="#" method="post" class="php-email-form">
+            <div class="newsletter-form"><input type="email" name="email" placeholder="Your email"><input type="submit" value="Subscribe"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">StudyWay</strong> <span>All Rights Reserved</span></p>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+
+  <!-- Main JS File -->
+  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
 
 </body>
 </html>

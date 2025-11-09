@@ -1,67 +1,349 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="about-container">
-  <section class="hero">
-    <h1>About StudyWay</h1>
-    <p class="tagline">Your trusted partner in choosing the right college for your future</p>
-  </section>
 
-  <section class="mission">
-    <h2>Our Mission</h2>
-    <p>
-      At StudyWay, our mission is to simplify the college selection process for students.
-      We aim to provide accurate, personalized, and up-to-date information about colleges,
-      courses, and entrance exams across India.
-    </p>
-  </section>
+<!-- About Hero Section -->
+<section id="about-hero" class="page-title section dark-background">
+  <div class="container">
+    <h2 data-aos="fade-up">About StudyWay</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Your trusted partner in finding the perfect educational path</p>
+  </div>
+</section>
 
-  <section class="features">
-    <h2>Why Choose StudyWay?</h2>
-    <ul>
-      <li><strong>Personalized Recommendations:</strong> Get suggestions tailored to your interests and profile.</li>
-      <li><strong>Wide Coverage:</strong> Access details of top colleges across states and cities.</li>
-      <li><strong>Smart Filters:</strong> Narrow down colleges by exams, fees, ratings, and more.</li>
-      <li><strong>Trusted Data:</strong> Information sourced directly from verified institutions.</li>
-    </ul>
-  </section>
-
-  <section class="how-it-works">
-    <h2>How It Works</h2>
-    <div class="steps">
-      <div class="step">
-        <span class="step-number">1</span>
-        <p>Enter your preferences such as city, state, exam, and budget.</p>
+<!-- About Content Section -->
+<section id="about-content" class="about section">
+  <div class="container">
+    <div class="row gy-4">
+      
+      <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+        <img src="{{ url_for('static', filename='assets/img/about.jpg') }}" class="img-fluid" alt="About StudyWay">
       </div>
-      <div class="step">
-        <span class="step-number">2</span>
-        <p>Browse through a curated list of colleges that match your profile.</p>
+
+      <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+        <h3>Empowering Students to Make Informed College Choices</h3>
+        <p class="fst-italic">
+          StudyWay is dedicated to simplifying the college selection process by providing comprehensive, 
+          data-driven insights and personalized recommendations.
+        </p>
+        <ul>
+          <li><i class="bi bi-check-circle"></i> <span>Comprehensive college database with detailed information</span></li>
+          <li><i class="bi bi-check-circle"></i> <span>Personalized recommendations based on your preferences</span></li>
+          <li><i class="bi bi-check-circle"></i> <span>Real-time updates on admissions, fees, and rankings</span></li>
+          <li><i class="bi bi-check-circle"></i> <span>Expert guidance for making the right educational choices</span></li>
+        </ul>
+        <a href="{{ url_for('contact') }}" class="read-more"><span>Get In Touch</span><i class="bi bi-arrow-right"></i></a>
       </div>
-      <div class="step">
-        <span class="step-number">3</span>
-        <p>Compare colleges side by side and make informed decisions.</p>
+
+    </div>
+  </div>
+</section>
+
+<!-- Mission Vision Section -->
+<section id="mission-vision" class="section why-us light-background">
+  <div class="container">
+    <div class="row gy-4">
+
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="why-box">
+          <h3>Our Mission</h3>
+          <p>
+            To democratize access to quality education information and empower every student to make 
+            informed decisions about their academic future. We believe that the right college can 
+            transform lives and shape successful careers.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="why-box">
+          <h3>Our Vision</h3>
+          <p>
+            To become the most trusted platform for college discovery and selection, bridging the 
+            gap between students and educational institutions through technology, transparency, 
+            and personalized guidance.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="about-features" class="features section">
+  <div class="container">
+
+    <div class="section-title" data-aos="fade-up">
+      <h2>Why Choose StudyWay?</h2>
+      <p>We provide everything you need to find your perfect college</p>
+    </div>
+
+    <div class="row gy-4">
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="features-item">
+          <i class="bi bi-database" style="color: #ffbb2c;"></i>
+          <h3><a href="" class="stretched-link">Comprehensive Database</a></h3>
+          <p>Access detailed information on thousands of colleges across India</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="features-item">
+          <i class="bi bi-graph-up" style="color: #5578ff;"></i>
+          <h3><a href="" class="stretched-link">Smart Recommendations</a></h3>
+          <p>Get personalized college suggestions based on your preferences</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="features-item">
+          <i class="bi bi-filter-square" style="color: #e80368;"></i>
+          <h3><a href="" class="stretched-link">Advanced Filters</a></h3>
+          <p>Filter colleges by location, fees, courses, rankings and more</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="400">
+        <div class="features-item">
+          <i class="bi bi-star" style="color: #e361ff;"></i>
+          <h3><a href="" class="stretched-link">Rating & Reviews</a></h3>
+          <p>Read authentic reviews and ratings from current students</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="500">
+        <div class="features-item">
+          <i class="bi bi-calculator" style="color: #47aeff;"></i>
+          <h3><a href="" class="stretched-link">Fee Calculator</a></h3>
+          <p>Calculate total course fees including hidden charges</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="600">
+        <div class="features-item">
+          <i class="bi bi-briefcase" style="color: #ffa76e;"></i>
+          <h3><a href="" class="stretched-link">Placement Data</a></h3>
+          <p>Access detailed placement statistics and company information</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="700">
+        <div class="features-item">
+          <i class="bi bi-calendar-check" style="color: #11dbcf;"></i>
+          <h3><a href="" class="stretched-link">Admission Calendar</a></h3>
+          <p>Never miss important admission dates and deadlines</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="800">
+        <div class="features-item">
+          <i class="bi bi-chat-dots" style="color: #4233ff;"></i>
+          <h3><a href="" class="stretched-link">Expert Support</a></h3>
+          <p>Get guidance from our team of education experts</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section id="about-stats" class="section counts">
+  <div class="container" data-aos="fade-up">
+    <div class="row gy-4">
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="5000" data-purecounter-duration="1" class="purecounter"></span>
+          <p>Colleges Listed</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="25000" data-purecounter-duration="1" class="purecounter"></span>
+          <p>Happy Students</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
+          <p>Cities Covered</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="1" class="purecounter"></span>
+          <p>Success Rate</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section id="team" class="section trainers-index light-background">
+  <div class="container">
+
+    <div class="section-title" data-aos="fade-up">
+      <h2>Our Team</h2>
+      <p>Meet the passionate people behind StudyWay</p>
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+        <div class="member">
+          <img src="{{ url_for('static', filename='assets/img/team/team-1.jpg') }}" class="img-fluid" alt="Team Member">
+          <div class="member-content">
+            <h4>Sarah Johnson</h4>
+            <span>Founder & CEO</span>
+            <p>
+              Passionate about education technology and making college discovery accessible to all students.
+            </p>
+            <div class="social">
+              <a href=""><i class="bi bi-twitter-x"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+        <div class="member">
+          <img src="{{ url_for('static', filename='assets/img/team/team-2.jpg') }}" class="img-fluid" alt="Team Member">
+          <div class="member-content">
+            <h4>Michael Chen</h4>
+            <span>CTO</span>
+            <p>
+              Technology enthusiast focused on building scalable solutions for educational challenges.
+            </p>
+            <div class="social">
+              <a href=""><i class="bi bi-twitter-x"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+        <div class="member">
+          <img src="{{ url_for('static', filename='assets/img/team/team-3.jpg') }}" class="img-fluid" alt="Team Member">
+          <div class="member-content">
+            <h4>Priya Sharma</h4>
+            <span>Head of Student Relations</span>
+            <p>
+              Dedicated to ensuring every student finds their perfect educational match.
+            </p>
+            <div class="social">
+              <a href=""><i class="bi bi-twitter-x"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section id="about-cta" class="section cta">
+  <div class="container" data-aos="fade-up">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h3>Ready to Find Your Perfect College?</h3>
+        <p>Join thousands of students who have found their dream college through StudyWay</p>
+        <a class="cta-btn" href="{{ url_for('college.list_colleges') }}">Explore Colleges Now</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="testimonials">
-    <h2>What Students Say</h2>
-    <blockquote>
-      "StudyWay made my college search so much easier. The filters and recommendations saved me weeks of research!"
-      <cite>- Priya S, Student</cite>
-    </blockquote>
-    <blockquote>
-      "I found my dream college through StudyWay. The information was accurate and up-to-date."
-      <cite>- Rahul M, Engineering Aspirant</cite>
-    </blockquote>
-  </section>
+<style>
+.page-title.section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  text-align: center;
+}
 
-  <section class="contact-info">
-    <h2>Contact Us</h2>
-    <p>If you have any questions or feedback, reach out to us:</p>
-    <p>Email: <a href="mailto:support@studyway.com">support@studyway.com</a></p>
-    <p>Phone: +91 98765 43210</p>
-  </section>
-</div>
+.page-title h2 {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.page-title p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.cta {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  text-align: center;
+}
+
+.cta h3 {
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.cta p {
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.cta-btn {
+  background: white;
+  color: #0d6efd;
+  padding: 12px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.features-item {
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.features-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+}
+
+.features-item i {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.features-item h3 {
+  margin-bottom: 15px;
+}
+
+.features-item p {
+  color: #6c757d;
+  margin-bottom: 0;
+}
+</style>
+
 {% endblock %}

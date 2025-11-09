@@ -1,105 +1,281 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 style="text-align:center;">Best Colleges in India 2025</h2>
 
-<!-- Filter and Search -->
-<form method="get" action="{{ url_for('college.list_colleges') }}" class="filter-form">
-  <div class="filters-container">
-
-    <!-- Search Bar -->
-    <input type="text" name="search" placeholder="Search by college name or course" value="{{ request.args.get('search', '') }}" class="search-box">
-
-    <!-- Location Filter -->
-    <select name="city" class="filter-select">
-  <option value="">All Cities</option>
-  {% for city in cities %}
-    <option value="{{ city }}" {% if request.args.get('city') == city %}selected{% endif %}>{{ city }}</option>
-  {% endfor %}
-</select>
-
-  <select name="state" class="filter-select">
-  <option value="">All States</option>
-  {% for state in states %}
-    <option value="{{ state }}" {% if request.args.get('state') == state %}selected{% endif %}>{{ state }}</option>
-  {% endfor %}
-</select>
-  <select name="exam" class="filter-select">
-      <option value="">All Exams</option>
-      {% for exam in exams %}
-        <option value="{{ exam }}" {% if request.args.get('exam') == exam %}selected{% endif %}>{{ exam }}</option>
-      {% endfor %}
-    </select>
-
-    <!-- Rating Filter -->
-    <select name="rating" class="filter-select">
-  <option value="">Rating</option>
-  {% for r in ratings %}
-    <option value="{{ r }}" {% if request.args.get('rating') == r|string %}selected{% endif %}>{{ r }}★ & Up</option>
-  {% endfor %}
-</select>
-
-    <!-- Fee Filter -->
-    <select name="fee" class="filter-select">
-      <option value="">Fee Range</option>
-      <option value="0-200000">Under ₹2L</option>
-      <option value="200000-400000">₹2L - ₹4L</option>
-      <option value="400000-1000000">Above ₹4L</option>
-    </select>
-
-    <button type="submit" class="search-btn">Apply Filters</button>
+<!-- Page Title Section -->
+<section id="page-title" class="page-title section dark-background">
+  <div class="container">
+    <h2 data-aos="fade-up">Best Colleges in India 2025</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Find the perfect college that matches your aspirations</p>
   </div>
-</form>
+</section>
 
-<!-- College List -->
-<div class="college-grid">
-  {% for c in colleges %}
-    <div class="college-card">
-      {% if c.image %}
-    <img src="{{ url_for('static', filename='image/' ~ c.image) }}" alt="{{ c.college_name }}" class="college-img">
-{% endif %}
-      <h3>{{ c.college_name or c.name }}</h3>
-      <ul>
-        <li><strong>City:</strong> {{ c.city }}</li>
-        <li><strong>State:</strong> {{ c.state }}</li>
+<!-- Filters Section -->
+<section id="filters" class="section light-background">
+  <div class="container">
+    <form method="get" action="{{ url_for('college.list_colleges') }}" class="filter-form" data-aos="fade-up">
+      <div class="row g-3 align-items-end">
 
-        <li><strong>Ranking:</strong> {{ c.ranking }}</li>
-        <li><strong>Fee:</strong> ₹{{ '{:,.2f}'.format(c.avg_fee) if c.avg_fee }}</li>
-        <li><strong>Courses:</strong> {{ ', '.join(c.courses or []) }}</li>
-        <li><strong>Exam:</strong> {{ c.exam }}</li>
-        <li><strong>Cutoff:</strong> {{ c.cutoff }}</li>
-        <li><strong>Rating:</strong> ⭐ {{ c.placement_rating }}</li>
-        <li><strong>Facilities:</strong> {{ ', '.join(c.facilities or []) }}</li>
-          <li><strong>Website:</strong>
-  {% if c.college_website %}
-    <a href="{{ c.college_website }}" target="_blank">{{ c.college_website }}</a>
-  {% else %}
-    N/A
-  {% endif %}
-</li>
-        <li><strong>About:</strong> {{ c.description[:120] }}...</li>
-      </ul>
+        <!-- Search Bar -->
+        <div class="col-md-3">
+          <div class="form-group">
+            <input type="text" name="search" placeholder="Search by college name or course"
+                   value="{{ request.args.get('search', '') }}" class="form-control">
+          </div>
+        </div>
+
+        <!-- Location Filters -->
+        <div class="col-md-2">
+          <div class="form-group">
+            <select name="city" class="form-select">
+              <option value="">All Cities</option>
+              {% for city in cities %}
+                <option value="{{ city }}" {% if request.args.get('city') == city %}selected{% endif %}>{{ city }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <select name="state" class="form-select">
+              <option value="">All States</option>
+              {% for state in states %}
+                <option value="{{ state }}" {% if request.args.get('state') == state %}selected{% endif %}>{{ state }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Exam Filter -->
+        <div class="col-md-2">
+          <div class="form-group">
+            <select name="exam" class="form-select">
+              <option value="">All Exams</option>
+              {% for exam in exams %}
+                <option value="{{ exam }}" {% if request.args.get('exam') == exam %}selected{% endif %}>{{ exam }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Rating Filter -->
+        <div class="col-md-2">
+          <div class="form-group">
+            <select name="rating" class="form-select">
+              <option value="">All Ratings</option>
+              {% for r in ratings %}
+                <option value="{{ r }}" {% if request.args.get('rating') == r|string %}selected{% endif %}>{{ r }}★ & Up</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Fee Filter -->
+        <div class="col-md-2">
+          <div class="form-group">
+            <select name="fee" class="form-select">
+              <option value="">Fee Range</option>
+              <option value="0-200000" {% if request.args.get('fee') == '0-200000' %}selected{% endif %}>Under ₹2L</option>
+              <option value="200000-400000" {% if request.args.get('fee') == '200000-400000' %}selected{% endif %}>₹2L - ₹4L</option>
+              <option value="400000-1000000" {% if request.args.get('fee') == '400000-1000000' %}selected{% endif %}>Above ₹4L</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Apply Button -->
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-primary w-100">Apply</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Colleges Grid Section -->
+<section id="colleges-grid" class="courses section">
+  <div class="container">
+
+    {% if colleges|length > 0 %}
+    <div class="row">
+      {% for c in colleges %}
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="{{ loop.index * 100 }}">
+        <div class="course-item">
+
+          <!-- College Image -->
+          {% if c.image %}
+            <img src="{{ url_for('static', filename='image/' ~ c.image) }}" class="img-fluid" alt="{{ c.college_name or c.name }}">
+          {% else %}
+            <img src="{{ url_for('static', filename='assets/img/course-1.jpg') }}" class="img-fluid" alt="College Image">
+          {% endif %}
+
+          <div class="course-content">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <p class="category">{{ c.city }}, {{ c.state }}</p>
+              <p class="price">₹{{ '{:,.0f}'.format(c.avg_fee) if c.avg_fee else 'N/A' }}</p>
+            </div>
+
+            <h3><a href="#">{{ c.college_name or c.name }}</a></h3>
+
+            <div class="college-details">
+              <p class="description">
+                <strong>Ranking:</strong> {{ c.ranking or 'N/A' }}<br>
+                <strong>Courses:</strong> {{ ', '.join(c.courses or [])[:50] }}{% if c.courses and (c.courses|join(', ')|length > 50) %}...{% endif %}<br>
+                <strong>Exam:</strong> {{ c.exam or 'N/A' }}<br>
+                <strong>Cutoff:</strong> {{ c.cutoff or 'N/A' }}
+              </p>
+            </div>
+
+            <div class="trainer d-flex justify-content-between align-items-center">
+              <div class="trainer-profile d-flex align-items-center">
+                <i class="bi bi-star-fill text-warning"></i>
+                <span class="ms-1">{{ c.placement_rating or 'N/A' }}/10</span>
+              </div>
+              <div class="trainer-rank d-flex align-items-center">
+                {% if c.college_website %}
+                <a href="{{ c.college_website }}" target="_blank" class="website-link">
+                  <i class="bi bi-globe"></i> Website
+                </a>
+                {% else %}
+                <span class="text-muted">No Website</span>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Facilities Tags -->
+            {% if c.facilities and c.facilities|length > 0 %}
+            <div class="facilities mt-2">
+              <small class="text-muted">
+                <strong>Facilities:</strong>
+                {% for facility in c.facilities[:3] %}
+                  <span class="badge bg-light text-dark me-1">{{ facility }}</span>
+                {% endfor %}
+                {% if c.facilities|length > 3 %}
+                  <span class="badge bg-light text-dark">+{{ c.facilities|length - 3 }} more</span>
+                {% endif %}
+              </small>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </div><!-- End College Item -->
+      {% endfor %}
     </div>
-  {% endfor %}
+    {% else %}
+    <!-- No Results Message -->
+    <div class="text-center py-5" data-aos="fade-up">
+      <i class="bi bi-search display-1 text-muted"></i>
+      <h3 class="mt-3">No colleges found</h3>
+      <p class="text-muted">Try adjusting your filters or search terms</p>
+      <a href="{{ url_for('college.list_colleges') }}" class="btn btn-primary mt-3">Clear Filters</a>
+    </div>
+    {% endif %}
 
-  {% if colleges|length == 0 %}
-    <p>No colleges found based on your filters.</p>
-  {% endif %}
-</div>
-<div class="pagination">
-  {% if page > 1 %}
-    <a href="{{ url_for('college.list_colleges', page=page-1, **request_args) }}" class="page-btn">Prev</a>
-  {% endif %}
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <div class="row mt-5">
+      <div class="col-12">
+        <nav aria-label="College pagination">
+          <ul class="pagination justify-content-center" data-aos="fade-up">
+            {% if page > 1 %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('college.list_colleges', page=page-1, **request_args) }}">
+                <i class="bi bi-chevron-left"></i> Previous
+              </a>
+            </li>
+            {% endif %}
 
-  {% for p in range(1, total_pages+1) %}
-    <a href="{{ url_for('college.list_colleges', page=p, **request_args) }}"
-       class="page-btn {% if p == page %}active{% endif %}">{{ p }}</a>
-  {% endfor %}
+            {% for p in range(1, total_pages+1) %}
+              {% if p >= page-2 and p <= page+2 %}
+              <li class="page-item {% if p == page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('college.list_colleges', page=p, **request_args) }}">{{ p }}</a>
+              </li>
+              {% endif %}
+            {% endfor %}
 
-  {% if page < total_pages %}
-    <a href="{{ url_for('college.list_colleges', page=page+1, **request_args) }}" class="page-btn">Next</a>
-  {% endif %}
-</div>
+            {% if page < total_pages %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('college.list_colleges', page=page+1, **request_args) }}">
+                Next <i class="bi bi-chevron-right"></i>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+    {% endif %}
 
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section id="college-stats" class="section counts light-background">
+  <div class="container" data-aos="fade-up">
+    <div class="row gy-4">
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="{{ colleges|length }}" data-purecounter-duration="1" class="purecounter"></span>
+          <p>Colleges Listed</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="{{ cities|length }}" data-purecounter-duration="1" class="purecounter"></span>
+          <p>Cities</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="{{ states|length }}" data-purecounter-duration="1" class="purecounter"></span>
+          <p>States</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="{{ exams|length }}" data-purecounter-duration="1" class="purecounter"></span>
+          <p>Exams</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.website-link {
+  color: #0d6efd;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.website-link:hover {
+  text-decoration: underline;
+}
+
+.college-details .description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.facilities .badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.filter-form .form-control,
+.filter-form .form-select {
+  border-radius: 0.375rem;
+  border: 1px solid #dee2e6;
+  padding: 0.5rem 0.75rem;
+}
+
+.filter-form .btn-primary {
+  background: #0d6efd;
+  border: none;
+  padding: 0.5rem 1rem;
+}
+</style>
 
 {% endblock %}
