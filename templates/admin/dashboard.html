@@ -74,6 +74,12 @@
             <li class="{{ 'active' if '/users' in request.path else '' }}">
               <a href="{{ url_for('admin.list_users') }}" class="nav-link"><i data-feather="users"></i><span>Users</span></a>
             </li>
+        <li class="{{ 'active' if '/students' in request.path else '' }}">
+    <a href="{{ url_for('admin.list_students') }}" class="nav-link">
+        <i data-feather="users"></i><span>Students</span>
+    </a>
+</li>
+
             <li class="{{ 'active' if '/colleges' in request.path else '' }}">
               <a href="{{ url_for('admin.list_colleges') }}" class="nav-link"><i data-feather="book-open"></i><span>Colleges</span></a>
             </li>

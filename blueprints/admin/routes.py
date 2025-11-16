@@ -449,3 +449,175 @@ def update_profile():
 
         flash('Profile updated successfully.', 'success')
         return redirect(url_for('admin.admin_profile'))
+
+# ---------- STUDENTS (fixed) ----------
+from flask import abort  # add near your other imports if not present
+
+@admin_bp.route('/students')
+@login_required
+@role_required('admin')
+def list_students():
+    db = get_db()
+
+    page = int(request.args.get('page', 1))
+    per_page = 10
+
+    total_count = db.students.count_documents({})
+    total_pages = (total_count + per_page - 1) // per_page
+
+    students = list(
+        db.students.find({})
+        .skip((page - 1) * per_page)
+        .limit(per_page)
+    )
+
+    # Flatten academic profile fields for easy rendering
+    for s in students:
+        ap = s.get("academic_profile", {}) or {}
+        s["tenth"] = ap.get("tenth_percent", "")
+        s["twelfth"] = ap.get("twelfth_percent", "")
+        s["cgpa"] = ap.get("graduation_cgpa", "")
+        s["entrance"] = ap.get("entrance_score", "")
+
+    return render_template(
+        "admin/students_list.html",
+        students=students,
+        page=page,
+        total_pages=total_pages
+    )
+
+
+@admin_bp.route('/students/add', methods=['GET'])
+@login_required
+@role_required('admin')
+def add_student_form():
+    # Reuse the same template as edit, with student=None
+    return render_template('admin/admin_add_student.html', student=None)
+
+
+@admin_bp.route('/students/edit/<student_id>', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
+def edit_student(student_id):
+    db = get_db()
+
+    try:
+        obj_id = ObjectId(student_id)
+    except Exception:
+        flash('Invalid student id.', 'error')
+        return redirect(url_for('admin.list_students'))
+
+    student = db.students.find_one({"_id": obj_id})
+    if not student:
+        flash('Student not found.', 'warning')
+        return redirect(url_for('admin.list_students'))
+
+    if request.method == 'POST':
+        # Collect form values and validate/convert where needed
+        update = {
+            "first_name": request.form.get("first_name", "").strip(),
+            "last_name": request.form.get("last_name", "").strip(),
+            "email": request.form.get("email", "").strip(),
+            "location_pref": request.form.get("location_pref", "").strip(),
+            "desired_course": request.form.get("desired_course", "").strip(),
+            "budget": float(request.form.get("budget")) if request.form.get("budget") else None,
+            "academic_profile": {
+                "tenth_percent": float(request.form.get("tenth_percent")) if request.form.get("tenth_percent") else None,
+                "twelfth_percent": float(request.form.get("twelfth_percent")) if request.form.get("twelfth_percent") else None,
+                "graduation_cgpa": float(request.form.get("graduation_cgpa")) if request.form.get("graduation_cgpa") else None,
+                "entrance_score": request.form.get("entrance_score") or None
+            },
+            "name": request.form.get("name", "").strip()
+        }
+
+        # Remove None fields if you prefer not to store them
+        db.students.update_one({"_id": obj_id}, {"$set": update})
+        flash('Student updated successfully.', 'success')
+        return redirect(url_for('admin.list_students'))
+
+    # GET -> show edit form
+    return render_template('admin/admin_add_student.html', student=student)
+
+
+@admin_bp.route('/students/save', methods=['POST'])
+@login_required
+@role_required('admin')
+def save_student():
+    """Generic upsert entry used by add form (when no _id present) or external usage."""
+    db = get_db()
+
+    # If the form includes _id (hidden) treat it as edit
+    form_id = request.form.get('_id') or request.form.get('student_id')
+    if form_id:
+        # update path
+        try:
+            obj_id = ObjectId(form_id)
+        except Exception:
+            flash('Invalid id.', 'error')
+            return redirect(url_for('admin.list_students'))
+
+        update_doc = {
+            "first_name": request.form.get("first_name", "").strip(),
+            "last_name": request.form.get("last_name", "").strip(),
+            "email": request.form.get("email", "").strip(),
+            "location_pref": request.form.get("location_pref", "").strip(),
+            "desired_course": request.form.get("desired_course", "").strip(),
+            "budget": float(request.form.get("budget")) if request.form.get("budget") else None,
+            "academic_profile": {
+                "tenth_percent": float(request.form.get("tenth_percent")) if request.form.get("tenth_percent") else None,
+                "twelfth_percent": float(request.form.get("twelfth_percent")) if request.form.get("twelfth_percent") else None,
+                "graduation_cgpa": float(request.form.get("graduation_cgpa")) if request.form.get("graduation_cgpa") else None,
+                "entrance_score": request.form.get("entrance_score") or None
+            },
+            "name": request.form.get("name", "").strip(),
+            "user_id": request.form.get("user_id") or request.form.get("email")
+        }
+        db.students.update_one({"_id": obj_id}, {"$set": update_doc})
+        flash('Student updated.', 'success')
+        return redirect(url_for('admin.list_students'))
+
+    # create path (no _id)
+    user_id = request.form.get("user_id") or request.form.get("email")
+    if not user_id:
+        flash('User ID or Email is required to add student.', 'error')
+        return redirect(request.referrer or url_for('admin.list_students'))
+
+    new_doc = {
+        "user_id": user_id,
+        "first_name": request.form.get("first_name", "").strip(),
+        "last_name": request.form.get("last_name", "").strip(),
+        "name": request.form.get("name", "").strip(),
+        "email": request.form.get("email", "").strip(),
+        "location_pref": request.form.get("location_pref", "").strip(),
+        "desired_course": request.form.get("desired_course", "").strip(),
+        "budget": float(request.form.get("budget")) if request.form.get("budget") else None,
+        "academic_profile": {
+            "tenth_percent": float(request.form.get("tenth_percent")) if request.form.get("tenth_percent") else None,
+            "twelfth_percent": float(request.form.get("twelfth_percent")) if request.form.get("twelfth_percent") else None,
+            "graduation_cgpa": float(request.form.get("graduation_cgpa")) if request.form.get("graduation_cgpa") else None,
+            "entrance_score": request.form.get("entrance_score") or None
+        }
+    }
+
+    db.students.update_one({"user_id": user_id}, {"$set": new_doc}, upsert=True)
+    flash('Student created.', 'success')
+    return redirect(url_for('admin.list_students'))
+
+
+@admin_bp.route('/students/delete/<student_id>', methods=['POST'])
+@login_required
+@role_required('admin')
+def delete_student(student_id):
+    db = get_db()
+    try:
+        obj_id = ObjectId(student_id)
+    except Exception:
+        flash("Invalid id.", "error")
+        return redirect(url_for("admin.list_students"))
+
+    result = db.students.delete_one({"_id": obj_id})
+    if result.deleted_count:
+        flash("Student deleted.", "success")
+    else:
+        flash("Student not found.", "warning")
+    return redirect(url_for("admin.list_students"))

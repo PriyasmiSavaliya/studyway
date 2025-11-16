@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Otika - Admin Dashboard Template</title>
+  <title>StudyWay</title>
   <!-- General CSS Files -->
 <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/app.min.css') }}">
   <!-- Template CSS -->
@@ -193,6 +193,11 @@
           <i data-feather="users"></i><span>Users</span>
         </a>
       </li>
+        <li class="{{ 'active' if '/students' in request.path else '' }}">
+    <a href="{{ url_for('admin.list_students') }}" class="nav-link">
+        <i data-feather="users"></i><span>Students</span>
+    </a>
+</li>
 
       <li class="{{ 'active' if '/colleges' in request.path else '' }}">
         <a href="{{ url_for('admin.list_colleges') }}" class="nav-link">

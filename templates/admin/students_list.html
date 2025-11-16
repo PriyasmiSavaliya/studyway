@@ -1,0 +1,90 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+
+<div class="page-header">
+    <h3 class="page-title"> Students List </h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Location Preference</th>
+            <th>Budget</th>
+            <th>Desired Course</th>
+            <th>Tenth %</th>
+            <th>Twelfth %</th>
+            <th>Graduation CGPA</th>
+            <th>Entrance Score</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
+            <td>{{ student.location_pref }}</td>
+            <td>{{ student.budget }}</td>
+            <td>{{ student.desired_course }}</td>
+            <td>{{ student.academic_profile.tenth_percent }}</td>
+            <td>{{ student.academic_profile.twelfth_percent }}</td>
+            <td>{{ student.academic_profile.graduation_cgpa }}</td>
+            <td>{{ student.academic_profile.entrance_score }}</td>
+            <td>{{ student.email }}</td>
+
+
+    <td>
+  <div style="display:flex; gap:6px;">
+    <a href="{{ url_for('admin.edit_student', student_id=student._id) }}" class="btn btn-sm btn-primary">Edit</a>
+
+    <form method="POST" action="{{ url_for('admin.delete_student', student_id=student._id) }}" style="margin:0;">
+      <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Delete this student?')">Delete</button>
+    </form>
+  </div>
+</td>
+
+
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+            <!-- Pagination -->
+            <nav>
+                <ul class="pagination justify-content-center mt-4">
+                    {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page - 1 }}">Previous</a>
+                    </li>
+                    {% endif %}
+
+                    {% for p in range(1, total_pages + 1) %}
+                    <li class="page-item {% if p == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if page < total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page + 1 }}">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

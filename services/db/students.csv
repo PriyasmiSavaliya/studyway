@@ -1,0 +1,50 @@
+_id,user_id,first_name,last_name,location_pref,budget,desired_course,academic_profile.tenth_percent,academic_profile.twelfth_percent,academic_profile.graduation_cgpa,academic_profile.entrance_score,name,email
+68d24507df956570104aa326,68d24507df956570104aa325,arjun,sharma,bangalore,450000.0,Computer Science,78.5,82.3,8.2,85.4,arjun sharma,arjun.sharma@email.com
+68d24b6f81e25dbe121b5828,68d24b6f81e25dbe121b5827,prety,rai,pune,50000.0,B.E,60.0,80.0,9.0,12.0,prety rai,prety.rai@email.com
+68e296a062104bd5be7de30e,68e296a062104bd5be7de30d,sradhdha,llard,chennai,350000.0,Data Science,81.2,76.8,8.7,78.9,sradhdha llard,sradhdha.llard@email.com
+690f0e02a0ce19a4d287c5e6,690f0e02a0ce19a4d287c5e4,priyank,managroliya,mumbai,600000.0,MBA,90.0,90.0,9.0,9.0,priyank managroliya,priyank@gmail.com
+690f2ff5d5cb9377fb7ae2d4,68af0ea3a9ca52bdaa3f3bad,laksh,savaliya,delhi,500000.0,mca,40.0,60.0,6.0,8.0,laksh savaliya,laksh@gmail.com
+68d24507df956570104aa327,68abff56f112167b28bb3cd1,neha,verma,hyderabad,280000.0,Electronics,85.6,79.4,8.4,82.1,neha verma,piyu@gmail.com
+68d24507df956570104aa328,68af0fd9a9ca52bdaa3f3bc7,rahul,patil,kolkata,320000.0,Mechanical,72.3,81.7,7.9,76.5,rahul patil,asha@gmail.com
+68d24507df956570104aa329,64a1f001f112167b28bb3cd1,anita,desai,ahmedabad,410000.0,Civil,88.9,84.2,9.1,88.3,anita desai,piyu1@gmail.com
+68d24507df956570104aa330,64a1f002f112167b28bb3cd2,vikram,reddy,pune,370000.0,Biotech,79.8,77.6,8.3,79.2,vikram reddy,john1@gmail.com
+68d24507df956570104aa331,64a1f003f112167b28bb3cd3,priya,iyer,delhi,290000.0,Chemistry,83.4,86.1,8.8,84.7,priya iyer,alice1@gmail.com
+68d24507df956570104aa332,64a1f004f112167b28bb3cd4,rohan,malhotra,mumbai,480000.0,Physics,76.7,82.9,8.5,81.6,rohan malhotra,bob1@gmail.com
+68d24507df956570104aa333,64a1f005f112167b28bb3cd5,divya,kumar,bangalore,340000.0,Mathematics,87.2,79.8,8.9,83.4,divya kumar,eve1@gmail.com
+68d24507df956570104aa334,64a1f006f112167b28bb3cd6,sameer,jain,chennai,390000.0,Architecture,74.5,83.6,7.8,77.8,sameer jain,charlie1@gmail.com
+68d24507df956570104aa335,64a1f007f112167b28bb3cd7,meera,naidu,hyderabad,260000.0,Pharmacy,82.1,85.3,8.6,85.9,meera naidu,diana1@gmail.com
+68d24507df956570104aa336,64a1f008f112167b28bb3cd8,akash,gupta,kolkata,430000.0,Aeronautics,80.6,78.9,8.1,80.3,akash gupta,frank1@gmail.com
+68d24507df956570104aa337,64a1f009f112167b28bb3cd9,puja,chatterjee,ahmedabad,310000.0,Biomedical,85.3,81.4,8.7,82.8,puja chatterjee,grace1@gmail.com
+68d24507df956570104aa338,64a1f010f112167b28bb3cda,amar,singh,pune,360000.0,Chemical,77.9,84.7,8.4,79.6,amar singh,hank1@gmail.com
+68d24507df956570104aa339,64a1f011f112167b28bb3cdb,kavita,shah,delhi,440000.0,Finance,89.1,87.5,9.2,89.7,kavita shah,ivy1@gmail.com
+68d24507df956570104aa340,64a1f012f112167b28bb3cdc,rajesh,mehta,mumbai,270000.0,Marketing,73.8,80.2,7.7,75.4,rajesh mehta,jack1@gmail.com
+68d24507df956570104aa341,5fe2c7d01c18437bbcbcdbb0,ananya,das,bangalore,380000.0,Psychology,84.7,83.9,8.8,86.2,ananya das,smithtabitha@gmail.com
+68d24507df956570104aa342,81088cda5d714b99a0a1ad4a,varun,rao,chennai,330000.0,Sociology,79.2,76.4,8.0,78.1,varun rao,andersonangela@castro.com
+68d24507df956570104aa343,9b7a3f2b0e934aae8ddf20be,swati,menon,hyderabad,470000.0,Literature,86.4,88.1,9.0,87.5,swati menon,deborahbowers@chen.com
+68d24507df956570104aa344,a47667227108440e9d4b4bf0,deepak,pillai,kolkata,250000.0,History,71.6,79.1,7.6,74.3,deepak pillai,thomas33@gmail.com
+68d24507df956570104aa345,d8240603f628450584f7b944,nandini,reddy,ahmedabad,420000.0,Economics,83.9,85.8,8.9,84.1,nandini reddy,tmartin@johnson.com
+68d24507df956570104aa346,ea2aa0a67f9e4ce8ac6ec4ec,manoj,kulkarni,pune,300000.0,Philosophy,75.4,82.6,8.2,76.9,manoj kulkarni,brent47@kirk.com
+68d24507df956570104aa347,96909876bacf440192664142,latha,iyengar,delhi,460000.0,Political Science,88.2,84.5,9.1,88.6,latha iyengar,eellis@garner.org
+68d24507df956570104aa348,0395dbac089e4739ae41ffa8,suresh,nair,mumbai,280000.0,Environmental,80.9,78.3,8.3,81.2,suresh nair,robertaustin@davis.com
+68d24507df956570104aa349,382ad19412b449b68d2b2e1c,geeta,sharma,bangalore,350000.0,Agriculture,76.1,81.9,8.0,77.4,geeta sharma,laura85@wood-white.com
+68d24507df956570104aa350,a4434b6d634e45e68852ca37,harish,kumar,chennai,490000.0,Marine,82.7,86.4,8.7,85.3,harish kumar,jamesmelissa@hotmail.com
+68d24507df956570104aa351,a484c059df29475983e9be8c,rani,bose,hyderabad,320000.0,Fashion,78.3,83.7,8.5,80.8,rani bose,ufernandez@gibbs-rodriguez.org
+68d24507df956570104aa352,4c4f749b70564e94831cfa55,ganesh,patel,kolkata,370000.0,Journalism,85.8,79.6,8.6,83.7,ganesh patel,tnewman@austin.org
+68d24507df956570104aa353,7494bad2c2414b29b5dfcc3d,anjal,i,verma,ahmedabad,410000.0,Law,87.6,87.2,9.0,86.9,anjali verma,brian77@delgado.com
+68d24507df956570104aa354,52ea08a51f0549fd9fe097e9,bala,subramanian,pune,290000.0,Music,74.2,80.8,7.9,75.8,bala subramanian,tina49@yahoo.com
+68d24507df956570104aa355,3756c33e9d2c40a9ae7fd8b3,chitra,rao,delhi,430000.0,Dance,81.5,84.9,8.8,82.5,chitra rao,victor43@mclaughlin.com
+68d24507df956570104aa356,fb6a2fb13e184b9bb0a7511a,dinesh,shah,mumbai,360000.0,Theater,79.7,77.1,8.1,79.4,dinesh shah,parkerderek@anderson-flores.info
+68d24507df956570104aa357,be80b769cd164c8c83164b59,elizabeth,mathew,bangalore,480000.0,Fine Arts,83.3,85.6,8.9,84.8,elizabeth mathew,davidcruz@hotmail.com
+68d24507df956570104aa358,ada9d73bc2704e53af59314c,farooq,ahmed,chennai,340000.0,Graphic Design,77.4,82.4,8.4,78.7,farooq ahmed,freemanmichael@yahoo.com
+68d24507df956570104aa359,329c04b28fb24dee8d235724,gayatri,deshpande,hyderabad,450000.0,Animation,86.1,83.8,8.7,87.1,gayatri deshpande,robertscott@gmail.com
+68d24507df956570104aa360,ce6a3ad29e2f4d8a80b046da,hemant,joshi,kolkata,310000.0,Photography,72.9,78.5,7.8,73.6,hemant joshi,cookmichael@thomas-smith.net
+68d24507df956570104aa361,ddc96e1f5f0245d4bb347e90,indira,naik,ahmedabad,470000.0,Film,84.2,86.7,9.1,85.5,indira naik,sandraelliott@garza.biz
+68d24507df956570104aa362,a39699c271f3484a940dfb7d,jitendra,reddy,pune,330000.0,Culinary,75.8,81.3,8.2,76.2,jitendra reddy,rhondafischer@french.com
+68d24507df956570104aa363,e730e2eeae774fa5a3e5b4e3,kiran,khan,delhi,390000.0,Hospitality,80.4,79.7,8.3,81.9,kiran khan,arieljones@mooney.org
+68d24507df956570104aa364,e3c5c7c1464e4b7a8c19001b,lalita,prasad,mumbai,420000.0,Tourism,78.6,84.1,8.6,80.1,lalita prasad,adamstewart@hotmail.com
+68d24507df956570104aa365,29a422e4d79f4894b3acf144,mohan,sharma,bangalore,280000.0,Sports,73.1,80.5,7.7,74.9,mohan sharma,wmartinez@hughes.org
+68d24507df956570104aa366,6fda80ec0dbc4875a02380c6,nisha,verma,chennai,440000.0,Nutrition,87.9,82.3,8.9,86.4,nisha verma,garnertonya@hotmail.com
+68d24507df956570104aa367,567ff0dd06604c16b780d809,omkar,patil,hyderabad,350000.0,Yoga,76.5,83.4,8.1,77.3,omkar patil,sharon78@jones.com
+68d24507df956570104aa368,bf08362bcd934122bfff2486,pooja,singh,kolkata,460000.0,Meditation,82.4,85.1,8.8,83.2,pooja singh,portercarrie@gmail.com
+68d24507df956570104aa369,2d422b7984e440a3a65c37ab,qasim,malik,ahmedabad,300000.0,Ayurveda,79.1,77.8,8.0,78.5,qasim malik,lisaconner@hotmail.com
+68d24507df956570104aa370,c629c1f0b4244264a991747c,radhika,gowda,pune,490000.0,Naturopathy,85.5,86.9,9.2,87.8,radhika gowda,rmartin@hotmail.com
