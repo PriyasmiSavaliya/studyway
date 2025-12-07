@@ -127,7 +127,7 @@ def edit_profile():
             db.students.insert_one(student_data)
 
         flash('Profile updated successfully!', 'success')
-        return redirect(url_for('user.profile'))  # Redirect to profile page after save
+        return redirect(url_for('user.recommendations'))  # Redirect to profile page after save
 
     return render_template('user/edit_profile.html', user=user)
 
